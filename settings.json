@@ -1,0 +1,62 @@
+{
+    "filter": [
+        {
+            "isChecked": true,
+            "key": "BookingDate",
+            "value": "Booking Date",
+            "type": "date"
+        },
+        {
+            "isChecked": false,
+            "key": "ValueDate",
+            "value": "Value Date",
+            "type": "date"
+        },
+        {
+            "isChecked": false,
+            "key": "BookingText",
+            "value": "Booking Text"
+        },
+        {
+            "isChecked": true,
+            "key": "Client",
+            "value": "Client"
+        },
+        {
+            "isChecked": true,
+            "key": "Reason",
+            "value": "Reason"
+        },
+        {
+            "isChecked": false,
+            "key": "BankAccountNumber",
+            "value": "Bank Account Number"
+        },
+        {
+            "isChecked": false,
+            "key": "BankCode",
+            "value": "Bank Code"
+        },
+        {
+            "isChecked": true,
+            "key": "Amount",
+            "value": "Amount",
+            "type": "number"
+        },
+        {
+            "isChecked": false,
+            "key": "Creditor",
+            "value": "Creditor"
+        },
+        {
+            "isChecked": false,
+            "key": "ClientReference",
+            "value": "Client Reference"
+        },
+        {
+            "isChecked": false,
+            "key": "CustomerReference",
+            "value": "Customer Reference"
+        }
+    ]
+}

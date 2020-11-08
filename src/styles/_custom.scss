@@ -1,0 +1,23 @@
+@import "~bootstrap/scss/bootstrap";
+@import "~react-input-range/src/scss/index";
+
+body {
+    background: $dark;
+}
+
+// .g.c3-axis {
+//     fill: white !important;
+// }
+
+.chartLegend {
+    fill: $light !important;
+}
+
+// .c3 path, .c3 line {
+//     stroke: $secondary;
+// }
+
+#drop_zone {
+    border: 5px dashed $info;
+    width:  200px;
+  }
