@@ -29,7 +29,13 @@ export const Chart = () => {
     const { state: dataContext } = React.useContext(dataAccountStore);
     const [chart1, setChart1] = React.useState<ChartState>({ min: 0, max: 1, range: { min: 0, max: 1 } })
 
-    let saldo = 25958.32;
+    let saldo = 0;
+    dataContext.accountList.forEach(element => {
+
+        if (element.saldo) {
+            saldo += element.saldo;
+        }
+    });
     const incomeData2: { x: Date, y: number | string }[] = [];
     dataContext.data.forEach(element => {
 
@@ -52,6 +58,8 @@ export const Chart = () => {
 
         const xx = [];
         const yy = [];
+        const yy2 = [];
+        const yy3 = [];
 
         for (let index = 0; index < countMonths; index++) {
 
@@ -73,6 +81,8 @@ export const Chart = () => {
 
             xx.push(`${startYear}-${startMonth + 1}-01`);
             yy.push(round(income1 - costs1));
+            yy2.push(income1);
+            yy3.push(costs1);
             startMonth++;
         }
 
@@ -112,7 +122,9 @@ export const Chart = () => {
 
         const chart5 = createLineChart([
             ["x", ...xx],
-            ["y", ...yy]], "chart5");
+            ["Rem", ...yy],
+            ["Income", ...yy2],
+            ["Costs", ...yy3]], "chart5");
 
         var max = incomeData2[0].x.getFullYear();
         var min = incomeData2[incomeData2.length - 1].x.getFullYear();
@@ -270,7 +282,8 @@ function createLineChart(data: any[], chartName: string) {
                 lines: lines
             },
             y: {
-                show: true
+                show: true,
+                lines: [{ value: 0 }]
             }
         }, zoom: {
             enabled: true

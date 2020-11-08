@@ -68,7 +68,7 @@ const Main = () => {
                     <li className={`nav-item${isActive(route, tableRoute)}`}>
                         <a className="nav-link" href="#"
                             onClick={() => setRouter({ currentRoute: tableRoute, routeList: router.routeList })}>
-                            Table
+                            Overview
                         </a>
                     </li>
                     <li className={`nav-item${isActive(route, chartRoute)}`}>

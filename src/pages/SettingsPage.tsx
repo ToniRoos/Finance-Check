@@ -61,8 +61,6 @@ const Settings = () => {
     </Draggable>);
 
     return <div>
-        <DropZone />
-
         <div className="jumbotron">
             <h1>Title</h1>
             <table className="table table-hover table-dark">

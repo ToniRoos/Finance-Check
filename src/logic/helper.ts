@@ -24,6 +24,7 @@ export interface YearItem {
 
 export interface AccountDataContext {
     accountList: AccountData[];
+    data: AccountDataRow[];
 }
 
 export interface AccountData {

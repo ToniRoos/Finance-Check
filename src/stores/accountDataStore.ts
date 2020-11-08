@@ -2,7 +2,7 @@ import * as React from "react";
 import { createStore } from "../logic/reducerStore";
 import { accountDataReducer } from "../reducer/accountDataReducer";
 
-const initialState = { data: [], bankAccountNumber: "" };
+const initialState = { accountList: [], data: [] };
 
 const { Provider: DataAccountProvider, store: dataAccountStore } = createStore({
     initialState: initialState,

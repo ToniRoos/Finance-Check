@@ -22,7 +22,7 @@ const DropZone = () => {
         if (accountData.data.length === 0) {
             return;
         }
-        dispatch({ type: "SET_DATA", payload: accountData.data });
+        dispatch({ type: "SET_DATA", payload: accountData });
 
     }, [accountData]);
 
@@ -63,7 +63,7 @@ const DropZone = () => {
     return <div className="row">
         <div id="drop_zone" className="w-100 text-center m-4 p-2 pt-5 pb-5 d-flex text-white flex-column align-items-center" onDrop={dropHandler} onDragOver={dragOverHandler}>
 
-            <h2>Drag one or more CSV files to this<br />drop zone to add bank account data...</h2>
+            <h2>Drop file here...</h2>
         </div>
     </div>
 }

@@ -1,6 +1,5 @@
 import * as React from "react";
 import DataColumn from "./DataColumn";
-import { formatNumberToEuroAmount, isFloat, isInt, parseDate } from "./logic/helper";
 import { FilterType } from "./pages/TablePage";
 
 export interface AccountDataRow {

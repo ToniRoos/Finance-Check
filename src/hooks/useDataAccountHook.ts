@@ -18,7 +18,7 @@ export function useDataAccountHook(filePath: string) {
 
     useEffect(() => {
 
-        dispatch({ type: "SET_DATA", payload: accountData.data });
+        dispatch({ type: "SET_DATA", payload: accountData });
 
     }, [accountData]);
 }

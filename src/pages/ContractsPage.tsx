@@ -33,7 +33,7 @@ const ContractsPage = () => {
                 return;
             }
 
-            const dataForClient = getDataFiltered(dataContext, element);
+            const dataForClient = getDataFiltered(dataContext.data, element);
             const sameData = dataForClient.length;
             const amountForClient = dataForClient[0].Amount;
             const countSameAmountsForClient = dataForClient.filter(item => item.Amount === amountForClient).length;
@@ -56,7 +56,7 @@ const ContractsPage = () => {
 
     contracts2.forEach(element => {
 
-        const dataForCLient = getDataFiltered(dataContext, element);
+        const dataForCLient = getDataFiltered(dataContext.data, element);
         const values = dataForCLient.map(item => item.Amount);
 
         const diffOfBookingInMonths = dataForCLient[0].BookingDate.getMonth() - dataForCLient[1].BookingDate.getMonth();
@@ -139,8 +139,8 @@ const ContractsPage = () => {
     </div>
 }
 
-function getDataFiltered(dataContext: AccountData, element: AccountDataRow) {
-    return dataContext.data.filter(item => checkCreditorOrClient(item, element) || item.BankAccountNumber === element.BankAccountNumber);
+function getDataFiltered(accountData: AccountDataRow[], element: AccountDataRow) {
+    return accountData.filter(item => checkCreditorOrClient(item, element) || item.BankAccountNumber === element.BankAccountNumber);
 }
 
 function checkCreditorOrClient(item: AccountDataRow, element: AccountDataRow): unknown {
