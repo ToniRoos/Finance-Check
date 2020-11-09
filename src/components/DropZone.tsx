@@ -1,7 +1,7 @@
 import * as React from "react";
-import { AccountData, loadCsv } from "./logic/helper";
-import { dataAccountStore } from "./stores/accountDataStore";
-import { filterStore } from "./stores/filterStore";
+import { AccountData, loadCsv } from "../logic/helper";
+import { dataAccountStore } from "../stores/accountDataStore";
+import { filterStore } from "../stores/filterStore";
 
 const DropZone = () => {
 

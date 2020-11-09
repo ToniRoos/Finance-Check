@@ -1,9 +1,8 @@
 import * as React from "react";
 import DataRow, { AccountDataRow } from "./DataRow";
-import { AccountData, trim } from "./logic/helper";
-import { FilterType } from "./pages/TablePage";
-// const dkbIcon = require('./images/dkb_icon.png');
-import logo from './images/dkb_icon.png';
+import { AccountData, trim } from "../logic/helper";
+import { FilterType } from "../pages/OverviewPage";
+import logo from '../images/dkb_icon.png';
 
 const BankAccountItem = (props: AccountData) => {
 
@@ -30,7 +29,7 @@ const BankAccountItem = (props: AccountData) => {
 
     const mappedDataList = accountData.map((element, index) => <DataRow key={index} {...element} filterList={filterList} />);
     const id = `collapseItem${trim(props.bankAccountNumber.replace(/\/|\*/g, ''))}`;
-    const style = (props.saldo as number) < 0 ? "text-right bg-danger" : "text-right bg-success";
+    const style = (props.saldo as number) < 0 ? "text-right text-danger" : "text-right text-dark";
 
     return <div className="jumbotron p-4">
 

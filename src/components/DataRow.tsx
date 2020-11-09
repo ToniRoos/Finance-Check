@@ -1,6 +1,6 @@
 import * as React from "react";
 import DataColumn from "./DataColumn";
-import { FilterType } from "./pages/TablePage";
+import { FilterType } from "../pages/OverviewPage";
 
 export interface AccountDataRow {
     BookingDate: Date;

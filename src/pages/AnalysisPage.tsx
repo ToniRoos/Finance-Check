@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as c3 from "c3";
 import 'c3/c3.css';
-import { AccountDataContext, monthDiff, round } from './logic/helper';
-import { dataAccountStore } from './stores/accountDataStore';
-import TimeSeriesChart from './TimeSeriesChart';
+import { AccountDataContext, monthDiff, round } from '../logic/helper';
+import { dataAccountStore } from '../stores/accountDataStore';
+import TimeSeriesChart from '../components/TimeSeriesChart';
 
 export interface ChartProps {
     data: any[];
 }
 
-export const Chart = () => {
+export const AnalysisPage = () => {
 
     const { state: dataContext } = React.useContext(dataAccountStore);
 

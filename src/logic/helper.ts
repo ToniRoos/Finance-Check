@@ -1,7 +1,7 @@
-import { AccountDataRow } from "../DataRow";
+import { AccountDataRow } from "../components/DataRow";
 import * as fs from "fs";
 import * as csv from "csv-parser";
-import { FilterState } from "../pages/TablePage";
+import { FilterState } from "../pages/OverviewPage";
 
 export function parseDate(date: Date) {
 

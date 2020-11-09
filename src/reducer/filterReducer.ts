@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import { Action } from "../logic/reducerStore";
-import { FilterState } from "../pages/TablePage";
+import { FilterState } from "../pages/OverviewPage";
 import * as fs from "fs";
 import { trim } from "../logic/helper";
 

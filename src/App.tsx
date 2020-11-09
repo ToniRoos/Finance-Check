@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Main from './Main';
+import Main from './components/Main';
 import * as ReactDom from 'react-dom';
 import 'bootstrap';
 import { DataAccountProvider } from './stores/accountDataStore';

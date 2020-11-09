@@ -1,5 +1,5 @@
 import * as React from "react";
-import { isFloat, isInt, formatNumberToEuroAmount, parseDate } from "./logic/helper";
+import { isFloat, isInt, formatNumberToEuroAmount, parseDate } from "../logic/helper";
 
 interface DataColumnProps {
     value: string | number | Date;

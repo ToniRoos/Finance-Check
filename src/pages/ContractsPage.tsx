@@ -1,6 +1,6 @@
 import * as React from "react";
-import DataColumn from "../DataColumn";
-import { AccountDataRow } from "../DataRow";
+import DataColumn from "../components/DataColumn";
+import { AccountDataRow } from "../components/DataRow";
 import { AccountData, formatNumberToEuroAmount, trim } from "../logic/helper";
 import { dataAccountStore } from "../stores/accountDataStore";
 

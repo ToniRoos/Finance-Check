@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { Chart } from './Chart';
-import Settings from './pages/SettingsPage';
-import TablePage from './pages/TablePage';
+import { AnalysisPage } from '../pages/AnalysisPage';
+import Settings from '../pages/SettingsPage';
+import OverviewPage from '../pages/OverviewPage';
 import * as fs from "fs";
-import { filterStore } from './stores/filterStore';
-import ContractsPage from './pages/ContractsPage';
-import { useDataAccountHook } from './hooks/useDataAccountHook';
+import { filterStore } from '../stores/filterStore';
+import ContractsPage from '../pages/ContractsPage';
 
 export interface RouteItem { page: () => JSX.Element, routeName: string }
 
@@ -15,18 +14,18 @@ export interface RoutesData {
 }
 
 const tableRoute = "tableRoute";
-const chartRoute = "chartRoute";
+const analysisRoute = "analysisRoute";
 const contractsRoute = "contractsRoute";
 const settingsRoute = "settingsRoute";
 
 const routes: RouteItem[] = [
     {
         routeName: tableRoute,
-        page: () => <TablePage />
+        page: () => <OverviewPage />
     },
     {
-        routeName: chartRoute,
-        page: () => <Chart />
+        routeName: analysisRoute,
+        page: () => <AnalysisPage />
     },
     {
         routeName: contractsRoute,
@@ -71,9 +70,9 @@ const Main = () => {
                             Overview
                         </a>
                     </li>
-                    <li className={`nav-item${isActive(route, chartRoute)}`}>
+                    <li className={`nav-item${isActive(route, analysisRoute)}`}>
                         <a className="nav-link" href="#"
-                            onClick={() => setRouter({ currentRoute: chartRoute, routeList: router.routeList })}>
+                            onClick={() => setRouter({ currentRoute: analysisRoute, routeList: router.routeList })}>
                             Chart
                         </a>
                     </li>

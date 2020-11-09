@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { AccountDataRow } from "../DataRow";
+import { AccountDataRow } from "../components/DataRow";
 import { AccountData, AccountDataContext } from "../logic/helper";
 import { Action } from "../logic/reducerStore";
 
