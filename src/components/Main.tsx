@@ -5,6 +5,9 @@ import OverviewPage from '../pages/OverviewPage';
 import * as fs from "fs";
 import { filterStore } from '../stores/filterStore';
 import ContractsPage from '../pages/ContractsPage';
+import { accountListPath } from '../types';
+import { dataAccountStore } from '../stores/accountDataStore';
+import { AccountData } from '../logic/helper';
 
 export interface RouteItem { page: () => JSX.Element, routeName: string }
 
@@ -39,11 +42,30 @@ const routes: RouteItem[] = [
 
 const Main = () => {
 
-    // useDataAccountHook('12344566.csv');
+    const { dispatch } = React.useContext(dataAccountStore);
     const [router, setRouter] = React.useState<RoutesData>({ currentRoute: tableRoute, routeList: routes });
     const { dispatch: filterDispatcher } = React.useContext(filterStore);
 
     React.useEffect(() => {
+
+        try {
+            if (fs.existsSync(accountListPath)) {
+                fs.readFile(accountListPath, (err, data: any) => {
+                    if (err) throw err;
+
+                    let dataParsed = JSON.parse(data).accountList as AccountData[];
+                    dataParsed.forEach(element => {
+
+                        element.data.forEach(item => {
+                            item.BookingDate = new Date(item.BookingDate);
+                        });
+                    });
+                    dispatch({ type: "SET_INITAL_DATA", payload: dataParsed });
+                })
+            }
+        } catch (err) {
+            console.error(err)
+        }
 
         fs.readFile("settings.json", (err, data: any) => {
             if (err) throw err;

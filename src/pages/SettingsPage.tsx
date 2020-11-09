@@ -2,7 +2,6 @@ import * as React from "react";
 import { filterStore } from "../stores/filterStore";
 import * as fs from "fs";
 import Draggable from "react-draggable";
-import DropZone from "../components/DropZone";
 
 const Settings = () => {
 

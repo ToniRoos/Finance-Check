@@ -2,25 +2,29 @@ import { produce } from "immer";
 import { AccountDataRow } from "../components/DataRow";
 import { AccountData, AccountDataContext } from "../logic/helper";
 import { Action } from "../logic/reducerStore";
+import * as fs from "fs";
+import { accountListPath } from "../types";
 
 export interface DataAccountAction extends Action {
-    type: "SET_DATA";
-    payload: AccountData;
+    type: "SET_DATA" | "SET_INITAL_DATA";
+    payload: AccountData | AccountData[];
 }
 
 export const accountDataReducer = (prevState: AccountDataContext, action: DataAccountAction) => {
     switch (action.type) {
         case 'SET_DATA':
             {
+                const payload = action.payload as AccountData;
                 prevState = produce(prevState, draft => {
 
-                    const bankAccountFiltered = draft.accountList.filter(item => item.bankAccountNumber === action.payload.bankAccountNumber);
+                    const bankAccountFiltered = draft.accountList.filter(item => item.bankAccountNumber === payload.bankAccountNumber);
                     if (bankAccountFiltered.length === 0) {
-                        draft.accountList.push(action.payload);
+
+                        draft.accountList.push(payload);
                     } else {
-                        // TODO concat data
+
                         const containedBankAccountData = bankAccountFiltered[0].data;
-                        action.payload.data.forEach(element => {
+                        payload.data.forEach(element => {
                             const notContained = containedBankAccountData.filter(item => item.Amount === element.Amount
                                 && item.BookingDate.getTime() === element.BookingDate.getTime()
                                 && item.BankAccountNumber === element.BankAccountNumber).length === 0;
@@ -29,28 +33,22 @@ export const accountDataReducer = (prevState: AccountDataContext, action: DataAc
                                 containedBankAccountData.push(element);
                             }
                         });
-                        bankAccountFiltered[0].saldo = action.payload.saldo;
+                        bankAccountFiltered[0].saldo = payload.saldo;
                     }
-                    draft.data = [];
-                    draft.accountList.forEach(account => {
-                        draft.data.push(...account.data);
-                    });
+                    draft.data = calcualateOverallAmounts(draft.accountList);
 
-                    const creaditCardBillingsToRemove: AccountDataRow[] = [];
-                    draft.data.filter(item => {
-                        const amount = item.Amount;
-                        const date = item.BookingDate;
-                        const creditCardBillingForItem = draft.data.filter(element => element.Amount === (-1 * amount)
-                            && (element.BookingDate.getTime() - date.getTime() < (5 * 24 * 60 * 60 * 1000)));
+                    let data = JSON.stringify({ accountList: draft.accountList }, null, 4);
+                    fs.writeFileSync(accountListPath, data);
+                });
+                break;
+            }
+        case 'SET_INITAL_DATA':
+            {
+                const payload = action.payload as AccountData[];
+                prevState = produce(prevState, draft => {
 
-                        if (creditCardBillingForItem.length === 1) {
-                            creaditCardBillingsToRemove.push(item);
-                            creaditCardBillingsToRemove.push(creditCardBillingForItem[0]);
-                        }
-                    })
-
-                    draft.data = draft.data.filter(item => creaditCardBillingsToRemove.indexOf(item) < 0);
-                    draft.data = draft.data.sort(dateComparer);
+                    draft.accountList = payload;
+                    draft.data = calcualateOverallAmounts(draft.accountList);
                 });
                 break;
             }
@@ -59,6 +57,32 @@ export const accountDataReducer = (prevState: AccountDataContext, action: DataAc
     };
     return prevState;
 };
+
+function calcualateOverallAmounts(accountList: AccountData[]) {
+
+    let data: AccountDataRow[] = [];
+    accountList.forEach(account => {
+        data.push(...account.data);
+    });
+
+    const creaditCardBillingsToRemove: AccountDataRow[] = [];
+    data.filter(item => {
+        const amount = item.Amount;
+        const date = item.BookingDate;
+        const creditCardBillingForItem = data.filter(element => element.Amount === (-1 * amount)
+            && (element.BookingDate.getTime() - date.getTime() < (5 * 24 * 60 * 60 * 1000)));
+
+        if (creditCardBillingForItem.length === 1) {
+            creaditCardBillingsToRemove.push(item);
+            creaditCardBillingsToRemove.push(creditCardBillingForItem[0]);
+        }
+    });
+
+    data = data.filter(item => creaditCardBillingsToRemove.indexOf(item) < 0);
+    data = data.sort(dateComparer);
+
+    return data;
+}
 
 function dateComparer(a: AccountDataRow, b: AccountDataRow) {
 
