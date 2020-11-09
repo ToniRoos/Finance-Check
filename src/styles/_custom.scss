@@ -17,11 +17,22 @@ body {
 //     stroke: $secondary;
 // }
 
-#drop_zone {
+.dropZone {
     border: 5px dashed $info;
     width:  200px;
   }
 
-.bankAccountItem {
-    height: 400px;
+.tableFixHead          { overflow-y: auto; height: 350px; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 100%; }
+
+.input-range__slider {
+    background-color: $info;
+    border-color: $info;
+}
+
+.input-range__track--active {
+    background: $info;
 }

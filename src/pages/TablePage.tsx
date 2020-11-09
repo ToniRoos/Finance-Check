@@ -28,9 +28,9 @@ const TablePage = () => {
         <DropZone />
         {mappedDataAccounts}
         <div className="jumbotron p-4">
-            <div className="d-flex">
+            <div className="d-flex align-items-center">
                 <div className="pl-4">
-                    <h4>
+                    <h4 className="m-0">
                         <a className="text-dark">
                             Gesamtsumme
                         </a>
@@ -38,7 +38,7 @@ const TablePage = () => {
                 </div>
                 <div className="flex-grow-1" />
                 <div className={style} style={{ width: "150px" }}>
-                    <h4>{saldo} €</h4>
+                    <h4 className="m-0 p-2">{saldo} €</h4>
                 </div>
             </div>
         </div>

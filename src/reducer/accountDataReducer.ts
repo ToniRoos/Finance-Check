@@ -35,6 +35,21 @@ export const accountDataReducer = (prevState: AccountDataContext, action: DataAc
                     draft.accountList.forEach(account => {
                         draft.data.push(...account.data);
                     });
+
+                    const creaditCardBillingsToRemove: AccountDataRow[] = [];
+                    draft.data.filter(item => {
+                        const amount = item.Amount;
+                        const date = item.BookingDate;
+                        const creditCardBillingForItem = draft.data.filter(element => element.Amount === (-1 * amount)
+                            && (element.BookingDate.getTime() - date.getTime() < (5 * 24 * 60 * 60 * 1000)));
+
+                        if (creditCardBillingForItem.length === 1) {
+                            creaditCardBillingsToRemove.push(item);
+                            creaditCardBillingsToRemove.push(creditCardBillingForItem[0]);
+                        }
+                    })
+
+                    draft.data = draft.data.filter(item => creaditCardBillingsToRemove.indexOf(item) < 0);
                     draft.data = draft.data.sort(dateComparer);
                 });
                 break;

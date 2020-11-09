@@ -25,7 +25,7 @@ const BankAccountItem = (props: AccountData) => {
     }, [searchText]);
 
     const mappedTableHeaders = filterList.map((filterItem, i) => {
-        return <th key={i} scope="col" className="align-middle">{filterItem.value}</th>
+        return <th key={i} scope="col" className="align-middle bg-dark border-0">{filterItem.value}</th>
     })
 
     const mappedDataList = accountData.map((element, index) => <DataRow key={index} {...element} filterList={filterList} />);
@@ -34,12 +34,12 @@ const BankAccountItem = (props: AccountData) => {
 
     return <div className="jumbotron p-4">
 
-        <div className="d-flex">
+        <div className="d-flex align-items-center">
             <div>
                 {<img src={logo} alt="Logo" style={{ width: "50px" }} />}
             </div>
             <div className="pl-4">
-                <h4>
+                <h4 className="m-0">
                     <a className="text-dark" data-toggle="collapse" href={`#${id}`} role="button" aria-expanded="false" aria-controls={`${id}`} >
                         {props.bankAccountNumber}
                     </a>
@@ -47,12 +47,12 @@ const BankAccountItem = (props: AccountData) => {
             </div>
             <div className="flex-grow-1" />
             <div className={style} style={{ width: "150px" }}>
-                <h4>{props.saldo} €</h4>
+                <h4 className="p-2 m-0">{props.saldo} €</h4>
             </div>
 
         </div>
 
-        <div id={`${id}`} className="collapse overflow-auto bankAccountItem">
+        <div id={`${id}`} className="collapse overflow-auto">
 
             <hr className="my-4" />
             <div className="row d-flex">
@@ -64,16 +64,19 @@ const BankAccountItem = (props: AccountData) => {
                     />
                 </form>
             </div>
-            <table className="table table-hover" style={{ height: "400px !important" }}>
-                <thead>
-                    <tr className="text-white bg-dark">
-                        {mappedTableHeaders}
-                    </tr>
-                </thead>
-                <tbody>
-                    {mappedDataList}
-                </tbody>
-            </table>
+            <div className="tableFixHead">
+                <table className="table table-hover">
+                    <thead>
+                        <tr className="text-white">
+                            {mappedTableHeaders}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {mappedDataList}
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>;
 }
