@@ -3,12 +3,12 @@ import Main from './components/Main';
 import * as ReactDom from 'react-dom';
 import 'bootstrap';
 import { DataAccountProvider } from './stores/accountDataStore';
-import { FilterProvider } from './stores/filterStore';
+import { SettingsProvider } from './stores/settingsStore';
 require('./styles/_custom.scss');
 
 ReactDom.render(<DataAccountProvider>
-    <FilterProvider>
+    <SettingsProvider>
         <Main />
-    </FilterProvider>
+    </SettingsProvider>
 </DataAccountProvider>, document.getElementById('root'));
 

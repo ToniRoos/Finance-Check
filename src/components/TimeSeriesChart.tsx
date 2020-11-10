@@ -1,6 +1,7 @@
 import * as c3 from "c3";
 import 'c3/c3.css';
 import * as React from "react";
+import { nextId } from "../logic/helper";
 const InputRange = require('react-input-range');
 
 interface ChartState {
@@ -50,7 +51,7 @@ const TimeSeriesChart = (props: TimeSeriesChartProps) => {
     for (let index = rangeMin; index <= rangeMax; index++) {
         yearsToDisplay.push(index);
     }
-    const chartId = "Chart-" + (new Date()).getTime();
+    const chartId = "Chart-" + nextId();
 
     React.useEffect(() => {
         const chart = createTimeSeriesChart(data, chartId);
@@ -64,6 +65,10 @@ const TimeSeriesChart = (props: TimeSeriesChartProps) => {
             if (props.yValues.show !== undefined && !props.yValues.show) {
                 chart.hide(props.yValues.label);
             }
+        }
+
+        return () => {
+            chart.destroy();
         }
     }, []);
 
@@ -100,6 +105,11 @@ const TimeSeriesChart = (props: TimeSeriesChartProps) => {
         const data = Array.isArray(props.yValues)
             ? [xValues, ...yValues] as any
             : [xValues, yValues] as any
+
+        chart.chart?.unload();
+        chart.chart?.load({
+            columns: (data)
+        })
 
         chart.chart?.load({
             columns: (data)

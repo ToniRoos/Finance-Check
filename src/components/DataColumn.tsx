@@ -15,7 +15,7 @@ const DataColumn = (props: DataColumnProps) => {
     }
 
     return <td className={style}>
-        <div className="text-truncate" style={{ maxWidth: "400px" }}>
+        <div className="text-truncate" style={{ maxWidth: "600px" }}>
             {valueParsed}
         </div>
     </td>;

@@ -1,21 +1,13 @@
 import * as React from "react";
-import DataRow, { AccountDataRow } from "./DataRow";
+import { AccountDataRow } from "./DataRow";
 import { AccountData, trim } from "../logic/helper";
-import { FilterType } from "../pages/OverviewPage";
 import logo from '../images/dkb_icon.png';
+import AmountTable from "./AmountTable";
 
 const BankAccountItem = (props: AccountData) => {
 
     const [searchText, setSearchText] = React.useState("");
     const [accountData, setData] = React.useState<AccountDataRow[]>(props.data);
-
-    const filterList: FilterType[] = [
-        { key: "BookingDate", value: "Booking Date" },
-        { key: "Client", value: "Client" },
-        // { key: "Creditor", value: "Creditor" },
-        // { key: "BankAccountNumber", value: "Bank Account Number" },
-        { key: "Amount", value: "Amount" }
-    ];
 
     React.useEffect(() => {
 
@@ -23,11 +15,6 @@ const BankAccountItem = (props: AccountData) => {
         setData(listToShow);
     }, [searchText]);
 
-    const mappedTableHeaders = filterList.map((filterItem, i) => {
-        return <th key={i} scope="col" className="align-middle bg-dark border-0">{filterItem.value}</th>
-    })
-
-    const mappedDataList = accountData.map((element, index) => <DataRow key={index} {...element} filterList={filterList} />);
     const id = `collapseItem${trim(props.bankAccountNumber.replace(/\/|\*/g, ''))}`;
     const style = (props.saldo as number) < 0 ? "text-right text-danger" : "text-right text-dark";
 
@@ -63,18 +50,7 @@ const BankAccountItem = (props: AccountData) => {
                     />
                 </form>
             </div>
-            <div className="tableFixHead">
-                <table className="table table-hover">
-                    <thead>
-                        <tr className="text-white">
-                            {mappedTableHeaders}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {mappedDataList}
-                    </tbody>
-                </table>
-            </div>
+            <AmountTable data={accountData} />
 
         </div>
     </div>;

@@ -3,9 +3,9 @@ import { AnalysisPage } from '../pages/AnalysisPage';
 import Settings from '../pages/SettingsPage';
 import OverviewPage from '../pages/OverviewPage';
 import * as fs from "fs";
-import { filterStore } from '../stores/filterStore';
+import { settingsStore } from '../stores/settingsStore';
 import ContractsPage from '../pages/ContractsPage';
-import { accountListPath } from '../types';
+import { accountListPath, settingsPath } from '../types';
 import { dataAccountStore } from '../stores/accountDataStore';
 import { AccountData } from '../logic/helper';
 
@@ -44,11 +44,30 @@ const Main = () => {
 
     const { dispatch } = React.useContext(dataAccountStore);
     const [router, setRouter] = React.useState<RoutesData>({ currentRoute: tableRoute, routeList: routes });
-    const { dispatch: filterDispatcher } = React.useContext(filterStore);
+    const { state: settings, dispatch: settingsDispatcher } = React.useContext(settingsStore);
+
+    React.useEffect(() => {
+
+        if (settings.categories.length === 0) {
+            return;
+        }
+
+        let data = JSON.stringify({ categories: settings.categories }, null, 4);
+        fs.writeFileSync('settings.json', data);
+    }, [router]);
 
     React.useEffect(() => {
 
         try {
+            if (fs.existsSync(settingsPath)) {
+                fs.readFile(settingsPath, (err, data: any) => {
+                    if (err) throw err;
+
+                    let settings = JSON.parse(data);
+                    settingsDispatcher({ type: "SET_CATEGORIES", payload: settings.categories });
+                })
+            }
+
             if (fs.existsSync(accountListPath)) {
                 fs.readFile(accountListPath, (err, data: any) => {
                     if (err) throw err;
@@ -66,13 +85,6 @@ const Main = () => {
         } catch (err) {
             console.error(err)
         }
-
-        fs.readFile("settings.json", (err, data: any) => {
-            if (err) throw err;
-
-            let settings = JSON.parse(data);
-            filterDispatcher({ type: "SET_FILTERLIST", payload: settings.filter });
-        })
     }, []);
 
     const route = router.routeList.filter(route => route.routeName === router.currentRoute)[0];
@@ -95,7 +107,7 @@ const Main = () => {
                     <li className={`nav-item${isActive(route, analysisRoute)}`}>
                         <a className="nav-link" href="#"
                             onClick={() => setRouter({ currentRoute: analysisRoute, routeList: router.routeList })}>
-                            Chart
+                            Analysis
                         </a>
                     </li>
                     <li className={`nav-item${isActive(route, contractsRoute)}`}>

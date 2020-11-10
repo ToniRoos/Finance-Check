@@ -4,14 +4,30 @@ import 'c3/c3.css';
 import { AccountDataContext, monthDiff, round } from '../logic/helper';
 import { dataAccountStore } from '../stores/accountDataStore';
 import TimeSeriesChart from '../components/TimeSeriesChart';
+import { settingsStore } from '../stores/settingsStore';
+import { AccountDataRow } from '../components/DataRow';
+import DonutChart from '../components/DonutChart';
+import AmountTable from '../components/AmountTable';
 
 export interface ChartProps {
     data: any[];
 }
 
+interface CostsCategory {
+    category: string;
+    data: AccountDataRow[];
+}
+
+interface SelectedSliceState {
+    year: number;
+    category: string;
+}
+
 export const AnalysisPage = () => {
 
     const { state: dataContext } = React.useContext(dataAccountStore);
+    const { state: settings } = React.useContext(settingsStore);
+    const [selectedSlice, setSelectedSclice] = React.useState<SelectedSliceState>()
 
     let saldo = 0;
     dataContext.accountList.forEach(element => {
@@ -21,6 +37,8 @@ export const AnalysisPage = () => {
         }
     });
     const incomeData2: { x: Date, y: number | string }[] = [];
+    const miscellaneous = "miscellaneous";
+    const costsMapped: CostsCategory[] = [{ category: miscellaneous, data: [] }];
     dataContext.data.forEach(element => {
 
         if (incomeData2.length > 0 && incomeData2[incomeData2.length - 1].x.getTime() === element.BookingDate.getTime()) {
@@ -31,6 +49,37 @@ export const AnalysisPage = () => {
 
             saldo = round(saldo - element.Amount);
             incomeData2.push({ x: element.BookingDate, y: saldo });
+        }
+
+        if (element.Amount > 0) {
+            return;
+        }
+
+        let anyMatch = false;
+        if (settings.categories) {
+            settings.categories.forEach(category => {
+
+                category.matches.forEach(matchItem => {
+
+                    const match = matchItem.toLocaleLowerCase();
+
+                    if (element.Client.toLocaleLowerCase().match(match)
+                        || element.Creditor.toLocaleLowerCase().match(match)
+                        || element.Reason.toLocaleLowerCase().match(match)) {
+                        const costItemsMatched = costsMapped.filter(costsMappedItem => costsMappedItem.category === category.title);
+                        if (costItemsMatched.length === 0) {
+                            costsMapped.push({ category: category.title, data: [element] });
+                        } else {
+                            costItemsMatched[0].data.push(element);
+                        }
+                        anyMatch = true;
+                    }
+                });
+            });
+        }
+
+        if (!anyMatch) {
+            costsMapped.filter(costsMappedItem => costsMappedItem.category === miscellaneous)[0].data.push(element);
         }
     });
 
@@ -55,78 +104,52 @@ export const AnalysisPage = () => {
         }}
         yValues={[{ label: "Remaining", data: yy }, { label: "Income", data: yy2, show: false }, { label: "Costs", data: yy3, show: false }]} />;
 
-    // React.useEffect(() => {
+    const costChartsMapped: JSX.Element[] = [];
+    if (dataContext.data.length > 0) {
+        var max = dataContext.data[0].BookingDate.getFullYear();
+        var min = dataContext.data[dataContext.data.length - 1].BookingDate.getFullYear();
+        var rangeMin = max - min > 2 ? max - 2 : min;
+        var rangeMax = max;
 
-    //     const { xx, yy, yy2, yy3 } = calculateRemainingMoney(dataContext);
+        for (let index = rangeMin; index <= rangeMax; index++) {
 
-    //     // const chart1 = createChart([x, incomeData], "chart1");
-    //     let costs1 = 0;
-    //     let income1 = 0;
-    //     dataContext.data.filter(elemet => elemet.BookingDate.getFullYear() === 2020 && elemet.BookingDate.getMonth() + 1 === 8).forEach(element => {
-    //         if (element.Amount < 0) {
-    //             costs1 += Math.abs(element.Amount);
-    //         } else {
-    //             income1 += element.Amount;
-    //         }
-    //     });
-    //     createDonutChart([["costs", costs1], ["income", income1]], "chartDonut1", `Remaining: ${formatNumberToEuroAmount(income1 - costs1)}`);
+            const mappedData: any[] = [];
+            costsMapped.forEach(element => {
+                mappedData.push([element.category, calculateSum(element.data.filter(item => item.BookingDate.getFullYear() === index))])
+            });
+            costChartsMapped.push(<div key={index} className="col">
+                <DonutChart data={mappedData} title={index.toString()} donutSliceClicked={(year, category) => {
+                    setSelectedSclice({ year: parseInt(year), category: category });
+                }} />
+            </div>)
+        }
+    }
 
-    //     let costs2 = 0;
-    //     let income2 = 0;
-    //     dataContext.data.filter(elemet => elemet.BookingDate.getFullYear() === 2020 && elemet.BookingDate.getMonth() + 1 === 9).forEach(element => {
-    //         if (element.Amount < 0) {
-    //             costs2 += Math.abs(element.Amount);
-    //         } else {
-    //             income2 += element.Amount;
-    //         }
-    //     });
-    //     createDonutChart([["costs", costs2], ["income", income2]], "chartDonut2", `Remaining: ${formatNumberToEuroAmount(income2 - costs2)}`);
+    let costDetails = undefined;
+    if (selectedSlice) {
+        dataContext.data.filter(item => item.BookingDate.getFullYear() === selectedSlice.year)
+        const costsFiltered: AccountDataRow[] = [];
+        costsMapped.filter(item => item.category === selectedSlice.category).forEach(item => {
+            costsFiltered.push(...item.data.filter(data => data.BookingDate.getFullYear() === selectedSlice.year))
+        });
+        costDetails = <AmountTable data={costsFiltered} />;
+    }
 
-    //     let costs3 = 0;
-    //     let income3 = 0;
-    //     dataContext.data.filter(elemet => elemet.BookingDate.getFullYear() === 2020 && elemet.BookingDate.getMonth() + 1 === 10).forEach(element => {
-    //         if (element.Amount < 0) {
-    //             costs3 += Math.abs(element.Amount);
-    //         } else {
-    //             income3 += element.Amount;
-    //         }
-    //     });
-    //     createDonutChart([["costs", costs3], ["income", income3]], "chartDonut3", `Remaining: ${formatNumberToEuroAmount(income3 - costs3)}`);
-
-    //     const chart5 = createLineChart([
-    //         ["x", ...xx],
-    //         ["Remaining", ...yy],
-    //         ["Income", ...yy2],
-    //         ["Costs", ...yy3]], "chart5");
-    //     chart5.hide(['Income', 'Costs']);
-
-    //     var max = incomeData2[0].x.getFullYear();
-    //     var min = incomeData2[incomeData2.length - 1].x.getFullYear();
-    //     var rangeMin = max === min ? max : max - 1;
-    //     var rangeMax = max;
-
-    //     var yearsToDisplay: number[] = [];
-    //     for (let index = rangeMin; index <= rangeMax; index++) {
-    //         yearsToDisplay.push(index);
-    //     }
-
-    //     const filteredIncomeDate = incomeData2.filter(item => yearsToDisplay.includes(item.x.getFullYear()))
-
-    //     const x1 = filteredIncomeDate.map(item => item.x.toISOString().split('T')[0]);
-
-    //     x1.unshift("x" as any);
-    //     const y1 = filteredIncomeDate.map(item => item.y);
-    //     y1.unshift("Account Balance");
-
-    //     const chart2 = createLineChart([x1, y1], "chart2");
-
-    //     setChart1({ min: min, max: max, range: { min: rangeMin, max: rangeMax }, chart: chart2 });
-
-    //     return () => {
-    //         // chart1.destroy();
-    //         chart2.destroy();
-    //     };
-    // }, [dataContext.data]);
+    const costsHeading = selectedSlice === undefined
+        ? <h1 className="text-center">Costs</h1>
+        : <div className="d-flex">
+            <div>
+                <button type="button" className="btn btn-outline-secondary"
+                    onClick={() => {
+                        setSelectedSclice(undefined);
+                    }}>
+                    {"<"}
+                </button>
+            </div>
+            <div className="flex-grow-1">
+                <h1 className="text-center">{`Costs - ${selectedSlice.category} - ${selectedSlice.year}`}</h1>
+            </div>
+        </div>;
 
     return <div>
 
@@ -136,8 +159,25 @@ export const AnalysisPage = () => {
         <div className="jumbotron">
             {remainingMoneyChart}
         </div>
+        <div className="jumbotron">
+            {costsHeading}
+            {costDetails === undefined
+                ? <div className="row">{costChartsMapped}</div>
+                : costDetails}
+
+        </div>
     </div>;
 };
+
+function calculateSum(accountRows: AccountDataRow[]) {
+
+    let sum = 0;
+    accountRows.forEach(element => {
+        sum += element.Amount;
+    });
+
+    return round(Math.abs(sum));
+}
 
 function calculateRemainingMoney(dataContext: AccountDataContext) {
 
@@ -184,26 +224,4 @@ function calculateRemainingMoney(dataContext: AccountDataContext) {
     yy3 = yy3.reverse();
 
     return { xx, yy, yy2, yy3 };
-}
-
-function createDonutChart(data: any[], chartName: string, title: string) {
-
-    var chart = c3.generate({
-        bindto: `#${chartName}`,
-        data: {
-            columns: data,
-            type: 'donut',
-            onclick: (d, element) => {
-            }
-        },
-        donut: {
-            title: title,
-            label: {
-                format: (value, ratio, id) => {
-                    return round(value) + "€";
-                }
-            }
-        }
-    });
-    return chart;
 }

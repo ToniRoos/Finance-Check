@@ -1,62 +1,79 @@
 {
-    "filter": [
+    "categories": [
         {
-            "isChecked": true,
-            "key": "BookingDate",
-            "value": "Booking Date",
-            "type": "date"
+            "title": "Shopping",
+            "matches": [
+                "Kaufland",
+                "Marktkauf",
+                "Edeka",
+                "Rewe",
+                "Real",
+                "Amazon",
+                "Neukauf",
+                "Dm",
+                "Aldi",
+                "Christ",
+                "Galeria",
+                "Bauhaus",
+                "McDonalds",
+                "Ikea",
+                "Hornbach",
+                "Jack&Jones",
+                "Wuerttembergische",
+                "Sparkasse",
+                "Saturn",
+                "Volksbank"
+            ]
         },
         {
-            "isChecked": false,
-            "key": "ValueDate",
-            "value": "Value Date",
-            "type": "date"
+            "title": "Haushalt",
+            "matches": [
+                "Miete",
+                "Gas",
+                "Strom",
+                "Unitymedia",
+                "Vodafone",
+                "Telefonica"
+            ]
         },
         {
-            "isChecked": false,
-            "key": "BookingText",
-            "value": "Booking Text"
+            "title": "Versicherungen",
+            "matches": [
+                "Gothaer",
+                "Nurnberger"
+            ]
         },
         {
-            "isChecked": true,
-            "key": "Client",
-            "value": "Client"
+            "title": "Kita",
+            "matches": [
+                "Kita"
+            ]
         },
         {
-            "isChecked": true,
-            "key": "Reason",
-            "value": "Reason"
+            "title": "Auto",
+            "matches": [
+                "Agip",
+                "Aral",
+                "Esso",
+                "Total",
+                "Jet",
+                "Shell"
+            ]
         },
         {
-            "isChecked": false,
-            "key": "BankAccountNumber",
-            "value": "Bank Account Number"
+            "title": "Öffis",
+            "matches": [
+                "DB Vertrieb"
+            ]
         },
         {
-            "isChecked": false,
-            "key": "BankCode",
-            "value": "Bank Code"
-        },
-        {
-            "isChecked": true,
-            "key": "Amount",
-            "value": "Amount",
-            "type": "number"
-        },
-        {
-            "isChecked": false,
-            "key": "Creditor",
-            "value": "Creditor"
-        },
-        {
-            "isChecked": false,
-            "key": "ClientReference",
-            "value": "Client Reference"
-        },
-        {
-            "isChecked": false,
-            "key": "CustomerReference",
-            "value": "Customer Reference"
+            "title": "Freizeit/Urlaub",
+            "matches": [
+                "Crossfit",
+                "AirBnb",
+                "Booking",
+                "Hotel"
+            ]
         }
     ]
 }

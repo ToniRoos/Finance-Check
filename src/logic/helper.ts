@@ -1,7 +1,11 @@
 import { AccountDataRow } from "../components/DataRow";
 import * as fs from "fs";
 import * as csv from "csv-parser";
-import { FilterState } from "../pages/OverviewPage";
+
+let curId = 0;
+export function nextId() {
+    return curId++;
+}
 
 export function parseDate(date: Date) {
 
@@ -58,10 +62,10 @@ const regexForAmount = /Betrag \(EUR\)/;
 const regexForClient = /Auftraggeber|Beschreibung/;
 const regexForCreditor = /Gl.ubiger-ID/;
 const regexForBankAccountNumber = /Kontonummer/;
+const regexForReason = /Verwendungszweck/;
 
-export function loadCsv(fileURLToPath: string, setData: React.Dispatch<React.SetStateAction<AccountData>>, filterList: FilterState) {
+export function loadCsv(fileURLToPath: string, setData: React.Dispatch<React.SetStateAction<AccountData>>) {
 
-    // const dataMappingKeysTmp = [...filterList.data.map(item => trim(item.value)), ""];
     const results: any = [];
     let lineNumber = 0;
     let bankAccountNumber = "";
@@ -72,6 +76,7 @@ export function loadCsv(fileURLToPath: string, setData: React.Dispatch<React.Set
     let colForClient = 0;
     let colForCreditor = 0;
     let colForBankAccountNumber = 0;
+    let colForReason = 0;
 
     fs.createReadStream(fileURLToPath)
         .pipe(csv({
@@ -92,6 +97,9 @@ export function loadCsv(fileURLToPath: string, setData: React.Dispatch<React.Set
                 }
                 if (value.match(regexForBankAccountNumber)) {
                     colForBankAccountNumber = index;
+                }
+                if (value.match(regexForReason)) {
+                    colForReason = index;
                 }
 
                 if (lineNumber === 0 && index === 1) {
@@ -123,26 +131,6 @@ export function loadCsv(fileURLToPath: string, setData: React.Dispatch<React.Set
                     return amountParsed;
                 }
                 return value;
-
-
-                // const filterListForHeader = filterList.data.filter(filterItem => filterItem.key === header);
-
-                // if (filterListForHeader.length === 0) {
-                //     return value;
-                // }
-
-                // if (filterListForHeader[0].type === "date") {
-
-                //     const splittedArray = value.split('.');
-                //     if (splittedArray.length === 3) {
-                //         return new Date(`${splittedArray[2]}-${splittedArray[1]}-${splittedArray[0]}`);
-                //     }
-                // }
-
-                // // if (filterListForHeader[0].type === "number") {
-
-
-                // return value;
             }
         }
         ))
@@ -155,6 +143,7 @@ export function loadCsv(fileURLToPath: string, setData: React.Dispatch<React.Set
             results.push({
                 BookingDate: row[colForDate],
                 Client: row[colForClient],
+                Reason: row[colForReason],
                 Creditor: row[colForCreditor],
                 BankAccountNumber: row[colForBankAccountNumber],
                 Amount: row[colForAmount]

@@ -17,6 +17,7 @@ export interface FilterState {
 const OverviewPage = () => {
 
     const { state: dataContext } = React.useContext(dataAccountStore);
+
     const mappedDataAccounts = dataContext.accountList.map((item, i) => <BankAccountItem key={i} {...item} />);
     let saldo = 0;
     dataContext.accountList.forEach(item => {

@@ -1,23 +1,22 @@
 import * as React from "react";
 import { AccountData, loadCsv } from "../logic/helper";
 import { dataAccountStore } from "../stores/accountDataStore";
-import { filterStore } from "../stores/filterStore";
+// import { filterStore } from "../stores/settingsStore";
 
 const DropZone = () => {
 
     const [filePath, setFilePath] = React.useState("");
     const [active, setActive] = React.useState(false);
-    const { state: filterList } = React.useContext(filterStore);
     const { dispatch } = React.useContext(dataAccountStore);
     const [accountData, setData] = React.useState<AccountData>({ data: [], bankAccountNumber: "" });
 
     React.useEffect(() => {
 
-        if (filterList.data.length > 0 && filePath !== "") {
-            loadCsv(filePath, setData, filterList);
+        if (filePath !== "") {
+            loadCsv(filePath, setData);
             setActive(false);
         }
-    }, [filterList, filePath])
+    }, [filePath])
 
     React.useEffect(() => {
 

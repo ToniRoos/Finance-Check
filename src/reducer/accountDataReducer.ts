@@ -4,6 +4,7 @@ import { AccountData, AccountDataContext } from "../logic/helper";
 import { Action } from "../logic/reducerStore";
 import * as fs from "fs";
 import { accountListPath } from "../types";
+import { CategroyItem } from "../pages/SettingsPage";
 
 export interface DataAccountAction extends Action {
     type: "SET_DATA" | "SET_INITAL_DATA";
