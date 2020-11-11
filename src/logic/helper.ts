@@ -2,6 +2,21 @@ import { AccountDataRow } from "../components/DataRow";
 import * as fs from "fs";
 import * as csv from "csv-parser";
 
+let globalUserDataPath = "";
+export function setGlobalUserDataPath(path: string) {
+
+    console.log(`Set path '${path}'`);
+    globalUserDataPath = path;
+}
+
+export function resolveFilePath(file: string) {
+
+    const resolvedPath = `${globalUserDataPath}/${file}`;
+    console.log(`Resolved path '${resolvedPath}'`);
+    return resolvedPath;
+}
+
+
 let curId = 0;
 export function nextId() {
     return curId++;

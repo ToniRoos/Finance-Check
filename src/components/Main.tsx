@@ -5,9 +5,10 @@ import OverviewPage from '../pages/OverviewPage';
 import * as fs from "fs";
 import { settingsStore } from '../stores/settingsStore';
 import ContractsPage from '../pages/ContractsPage';
-import { accountListPath, settingsPath } from '../types';
+import { resolveAccountListPath, resolveSettingsPath } from '../types';
 import { dataAccountStore } from '../stores/accountDataStore';
 import { AccountData } from '../logic/helper';
+import { toast } from 'react-toastify';
 
 export interface RouteItem { page: () => JSX.Element, routeName: string }
 
@@ -45,6 +46,8 @@ const Main = () => {
     const { dispatch } = React.useContext(dataAccountStore);
     const [router, setRouter] = React.useState<RoutesData>({ currentRoute: tableRoute, routeList: routes });
     const { state: settings, dispatch: settingsDispatcher } = React.useContext(settingsStore);
+    const settingsPath = resolveSettingsPath();
+    const accountListPath = resolveAccountListPath();
 
     React.useEffect(() => {
 
@@ -52,8 +55,13 @@ const Main = () => {
             return;
         }
 
-        let data = JSON.stringify({ categories: settings.categories }, null, 4);
-        fs.writeFileSync('settings.json', data);
+        try {
+            let data = JSON.stringify({ categories: settings.categories }, null, 4);
+            fs.writeFileSync(settingsPath, data);
+        } catch (e) {
+            toast.error('Failed to write settings.json');
+        }
+
     }, [router]);
 
     React.useEffect(() => {

@@ -3,7 +3,7 @@ import { AccountDataRow } from "../components/DataRow";
 import { AccountData, AccountDataContext } from "../logic/helper";
 import { Action } from "../logic/reducerStore";
 import * as fs from "fs";
-import { accountListPath } from "../types";
+import { resolveAccountListPath } from "../types";
 import { CategroyItem } from "../pages/SettingsPage";
 
 export interface DataAccountAction extends Action {
@@ -39,7 +39,7 @@ export const accountDataReducer = (prevState: AccountDataContext, action: DataAc
                     draft.data = calcualateOverallAmounts(draft.accountList);
 
                     let data = JSON.stringify({ accountList: draft.accountList }, null, 4);
-                    fs.writeFileSync(accountListPath, data);
+                    fs.writeFileSync(resolveAccountListPath(), data);
                 });
                 break;
             }

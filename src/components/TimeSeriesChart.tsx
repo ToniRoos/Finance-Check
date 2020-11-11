@@ -107,13 +107,11 @@ const TimeSeriesChart = (props: TimeSeriesChartProps) => {
             ? [xValues, ...yValues] as any
             : [xValues, yValues] as any
 
+        chartData.chart?.unload();
         chartData.chart?.load({
             columns: (data),
         });
 
-        return () => {
-            // chartData.chart?.unload();
-        };
     }, [chartData]);
 
     return <div>

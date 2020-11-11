@@ -1,2 +1,4 @@
-export const accountListPath = 'accountList.json';
-export const settingsPath = 'settings.json';
+import { resolveFilePath } from "../logic/helper";
+
+export const resolveAccountListPath = () => resolveFilePath('accountList.json');
+export const resolveSettingsPath = () => resolveFilePath('settings.json');
