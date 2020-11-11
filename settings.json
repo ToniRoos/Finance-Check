@@ -22,7 +22,34 @@
                 "Wuerttembergische",
                 "Sparkasse",
                 "Saturn",
-                "Volksbank"
+                "Volksbank",
+                "Netto",
+                "Hit",
+                "Mueller",
+                "Tegut",
+                "Sport Scheck",
+                "Osiander",
+                "H&M",
+                "Bike24",
+                "Fahrrad",
+                "Bike",
+                "E24",
+                "Conrad",
+                "KOELLE-ZOO GMBH",
+                "H+M",
+                "Internetsto",
+                "VR-Bank",
+                "Postbank",
+                "Commerzbank",
+                "Korbmayer GmbH",
+                "Baby-Walz",
+                "JAKO-O",
+                "Liebeskind",
+                "Das Depot",
+                "Zara",
+                "Hema",
+                "Decathlon",
+                "ARMEDANGELS"
             ]
         },
         {
@@ -33,14 +60,21 @@
                 "Strom",
                 "Unitymedia",
                 "Vodafone",
-                "Telefonica"
+                "Telefonica",
+                "Rundfunk"
             ]
         },
         {
-            "title": "Versicherungen",
+            "title": "Versicherungen/Gesundheit",
             "matches": [
                 "Gothaer",
-                "Nurnberger"
+                "Nurnberger",
+                "Krist",
+                "INTER Versicherungsgruppe",
+                "Huk",
+                "Europaeische Reiseversich",
+                "Zahnarzt",
+                "Apotheke"
             ]
         },
         {
@@ -57,13 +91,22 @@
                 "Esso",
                 "Total",
                 "Jet",
-                "Shell"
+                "Shell",
+                "OMV",
+                "Karl Schellhorn GmbH",
+                "TamOil",
+                "Tankstelle",
+                "Dekra",
+                "A.T.U."
             ]
         },
         {
             "title": "Öffis",
             "matches": [
-                "DB Vertrieb"
+                "DB Vertrieb",
+                "DBVertieb",
+                "Flixbus",
+                "Stuttgarter Strassenbahnen AG"
             ]
         },
         {
@@ -72,7 +115,16 @@
                 "Crossfit",
                 "AirBnb",
                 "Booking",
-                "Hotel"
+                "Hotel",
+                "Wilhelma",
+                "Turbulenzen",
+                "Tierpark",
+                "Sixt",
+                "Lupa",
+                "Surf",
+                "Eroski",
+                "Coop",
+                "Eurowings"
             ]
         }
     ]

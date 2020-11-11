@@ -40,12 +40,7 @@ const TimeSeriesChart = (props: TimeSeriesChartProps) => {
     var rangeMin = max === min ? max : max - 1;
     var rangeMax = max;
 
-    const [chart, setChart] = React.useState<ChartState>({ min: min, max: max, range: { min: rangeMin, max: rangeMax } })
-
-    const xValues = [props.xValues.label, ...props.xValues.data.map(item => item.toISOString().split('T')[0])];
-    const data = Array.isArray(props.yValues)
-        ? [xValues, ...props.yValues.map(element => [element.label, ...element.data])]
-        : [xValues, [props.yValues.label, ...props.yValues.data]];
+    const [chartData, setChartData] = React.useState<ChartState>({ min: min, max: max, range: { min: rangeMin, max: rangeMax } })
 
     var yearsToDisplay: number[] = [];
     for (let index = rangeMin; index <= rangeMax; index++) {
@@ -54,9 +49,15 @@ const TimeSeriesChart = (props: TimeSeriesChartProps) => {
     const chartId = "Chart-" + nextId();
 
     React.useEffect(() => {
+
+        const xValues = [props.xValues.label, ...props.xValues.data.map(item => item.toISOString().split('T')[0])];
+        const data = Array.isArray(props.yValues)
+            ? [xValues, ...props.yValues.map(element => [element.label, ...element.data])]
+            : [xValues, [props.yValues.label, ...props.yValues.data]];
+
         const chart = createTimeSeriesChart(data, chartId);
 
-        setChart({ min: min, max: max, range: { min: rangeMin, max: rangeMax }, chart: chart });
+        setChartData({ min: min, max: max, range: { min: rangeMin, max: rangeMax }, chart: chart });
 
         if (Array.isArray(props.yValues)) {
             const linesToHide = props.yValues.filter(data => data.show !== undefined && !data.show).map(data => data.label);
@@ -75,7 +76,7 @@ const TimeSeriesChart = (props: TimeSeriesChartProps) => {
     React.useEffect(() => {
 
         var yearsToDisplay: number[] = [];
-        for (let index = chart.range.min; index <= chart.range.max; index++) {
+        for (let index = chartData.range.min; index <= chartData.range.max; index++) {
             yearsToDisplay.push(index);
         }
 
@@ -106,27 +107,23 @@ const TimeSeriesChart = (props: TimeSeriesChartProps) => {
             ? [xValues, ...yValues] as any
             : [xValues, yValues] as any
 
-        chart.chart?.unload();
-        chart.chart?.load({
-            columns: (data)
-        })
-
-        chart.chart?.load({
-            columns: (data)
-        })
+        chartData.chart?.load({
+            columns: (data),
+        });
 
         return () => {
+            // chartData.chart?.unload();
         };
-    }, [chart]);
+    }, [chartData]);
 
     return <div>
-        <h1 className="text-center">{`${props.title} (${chart.range.min} - ${chart.range.max})`}</h1>
-        {chart.min === chart.max ? undefined : <InputRange
-            maxValue={chart.max}
-            minValue={chart.min}
-            value={chart.range}
+        <h1 className="text-center">{`${props.title} (${chartData.range.min} - ${chartData.range.max})`}</h1>
+        {chartData.min === chartData.max ? undefined : <InputRange
+            maxValue={chartData.max}
+            minValue={chartData.min}
+            value={chartData.range}
             onChange={(value: any) => {
-                setChart({ ...chart, range: value })
+                setChartData({ ...chartData, range: value })
             }} />}
         <hr className="my-4"></hr>
         <div id={chartId} />
@@ -135,16 +132,7 @@ const TimeSeriesChart = (props: TimeSeriesChartProps) => {
 
 function createTimeSeriesChart(data: any[], chartName: string) {
 
-    const lines: { value: string, text: string }[] = [];
-    data[0].forEach((element: string) => {
-
-        const splittedElement = element.split('-');
-        const lineString = `${splittedElement[0]}-${splittedElement[1]}-01`;
-
-        if (lines.filter(item => item.value === lineString).length === 0) {
-            lines.push({ value: lineString, text: lineString });
-        }
-    });
+    const lines: { value: string; text: string; }[] = createChartLinesPerMonth(data);
 
     var chart = c3.generate({
         bindto: `#${chartName}`,
@@ -181,3 +169,26 @@ function createTimeSeriesChart(data: any[], chartName: string) {
 }
 
 export default TimeSeriesChart;
+
+function createChartLinesPerMonth(data: any[]) {
+
+    if (data === undefined || data.length === 0) {
+        return [];
+    }
+
+    const lines: { value: string; text: string; }[] = [];
+    data[0].forEach((element: string) => {
+
+        if (element === "x") {
+            return [];
+        }
+
+        const splittedElement = element.split('-');
+        const lineString = `${splittedElement[0]}-${splittedElement[1]}-01`;
+
+        if (lines.filter(item => item.value === lineString).length === 0) {
+            lines.push({ value: lineString, text: lineString });
+        }
+    });
+    return lines;
+}
