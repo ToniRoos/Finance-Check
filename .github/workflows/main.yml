@@ -20,7 +20,8 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, macOS-latest, ubuntu-latest]
-        node-version: [10.x, 12.x]
+        node-version: [12.x]
+       # node-version: [10.x, 12.x]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -39,7 +40,7 @@ jobs:
       with:
         name: out
         path: |
-          out/make/zip
+          out/**/*.zip
       
       env:
         CI: true
