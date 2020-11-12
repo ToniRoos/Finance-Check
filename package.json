@@ -9,7 +9,7 @@
     "start:dev": "npm run build:dev && electron .",
     "start": "npm run build:dev && electron-forge start",
     "test": "jest",
-    "package": "electron-forge package",
+    "package": "npm run build && electron-forge package",
     "make": "npm run build && electron-forge make"
   },
   "author": "",
@@ -98,10 +98,7 @@
           }
         },
         {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
+          "name": "@electron-forge/maker-zip"
         },
         {
           "name": "@electron-forge/maker-deb",
