@@ -85,12 +85,16 @@
   },
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "platforms": [
+          "darwin"
+        ]
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "myfirstelectronapp"
+            "name": "Finance Check"
           }
         },
         {
