@@ -36,9 +36,9 @@ jobs:
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: dist
+        name: out
         path: |
-          dist
+          out
       
       env:
         CI: true
