@@ -1,7 +1,6 @@
 import * as React from "react";
 import { AccountData, loadCsv } from "../logic/helper";
 import { dataAccountStore } from "../stores/accountDataStore";
-// import { filterStore } from "../stores/settingsStore";
 
 const DropZone = () => {
 
@@ -68,7 +67,7 @@ const DropZone = () => {
             onDragOver={dragOverHandler}
             onDragLeave={dragLeaveHandler}>
 
-            <h2>Drop CSV file here...</h2>
+            <h2>{"--> Drop CSV file here <--"}</h2>
         </div>
     </div>
 }

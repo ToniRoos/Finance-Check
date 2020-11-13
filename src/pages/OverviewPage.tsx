@@ -1,6 +1,7 @@
 import * as React from "react";
 import BankAccountItem from "../components/BankAccountItem";
 import DropZone from "../components/DropZone";
+import { formatNumberToEuroAmount } from "../logic/helper";
 import { dataAccountStore } from "../stores/accountDataStore";
 
 export interface FilterType {
@@ -38,8 +39,8 @@ const OverviewPage = () => {
                     </h4>
                 </div>
                 <div className="flex-grow-1" />
-                <div className={style} style={{ width: "150px" }}>
-                    <h4 className="m-0 p-2">{saldo} €</h4>
+                <div className={style}>
+                    <h4 className="m-0 p-2">{formatNumberToEuroAmount(saldo)}</h4>
                 </div>
             </div>
         </div>

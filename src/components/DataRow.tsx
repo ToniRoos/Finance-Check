@@ -48,12 +48,7 @@ const DataRow = (props: DataRowProps) => {
     </tr >;
 }
 
-const paypal = "PayPal";
 function checkClientMapping(client: string, categoryList: CategroyItem[]) {
-
-    // if (client.toLocaleLowerCase().includes(paypal.toLocaleLowerCase())) {
-    //     return paypal;
-    // }
 
     let matchedClientMapping = undefined;
     categoryList.forEach(item => item.matches.forEach(match => {

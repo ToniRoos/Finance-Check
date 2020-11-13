@@ -1,6 +1,6 @@
 import * as React from "react";
 import { AccountDataRow } from "./DataRow";
-import { AccountData, trim } from "../logic/helper";
+import { AccountData, formatNumberToEuroAmount, trim } from "../logic/helper";
 import logo from '../images/dkb_icon.png';
 import AmountTable from "./AmountTable";
 
@@ -11,7 +11,10 @@ const BankAccountItem = (props: AccountData) => {
 
     React.useEffect(() => {
 
-        const listToShow = searchText === "" ? props.data : props.data.filter(row => row.Client.toLocaleLowerCase().match(searchText.toLocaleLowerCase()));
+        const listToShow = searchText === "" ? props.data : props.data.filter(row => row.Client.toLocaleLowerCase().match(searchText.toLocaleLowerCase())
+            || row.Reason.toLocaleLowerCase().match(searchText.toLocaleLowerCase())
+            || row.Creditor.toLocaleLowerCase().match(searchText.toLocaleLowerCase())
+            || row.Amount.toString().match(searchText.toLocaleLowerCase()));
         setData(listToShow);
     }, [searchText]);
 
@@ -32,10 +35,9 @@ const BankAccountItem = (props: AccountData) => {
                 </h4>
             </div>
             <div className="flex-grow-1" />
-            <div className={style} style={{ width: "150px" }}>
-                <h4 className="p-2 m-0">{props.saldo} €</h4>
+            <div className={style}>
+                <h4 className="p-2 m-0">{props.saldo ? formatNumberToEuroAmount(props.saldo) : 0}</h4>
             </div>
-
         </div>
 
         <div id={`${id}`} className="collapse overflow-auto">
