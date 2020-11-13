@@ -1,7 +1,7 @@
 {
   "name": "financecheck",
   "version": "1.0.1",
-  "description": "Check your DKB finances. Supports DKB cash and credit card accounts. To use it, export your DKB account data and drag it to the app. Then check your finances (list costs and income, calculate remaining money, find contracts, how your assets are developing, etc.).",
+  "description": "Check your DKB finances (DKB cash and credit card accounts)",
   "main": "electron.js",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
