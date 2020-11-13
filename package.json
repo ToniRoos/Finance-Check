@@ -1,7 +1,7 @@
 {
   "name": "financecheck",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Check your DKB finances. Supports DKB cash and credit card accounts. To use it, export your DKB account data and drag it to the app. Then check your finances (list costs and income, calculate remaining money, find contracts, how your assets are developing, etc.).",
   "main": "electron.js",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
@@ -12,7 +12,7 @@
     "package": "npm run build && electron-forge package",
     "make": "npm run build && electron-forge make"
   },
-  "author": "",
+  "author": "Toni Roos",
   "license": "ISC",
   "devDependencies": {
     "@babel/preset-env": "^7.4.5",

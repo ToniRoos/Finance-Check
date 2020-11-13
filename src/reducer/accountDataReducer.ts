@@ -11,6 +11,15 @@ export interface DataAccountAction extends Action {
     payload: AccountData | AccountData[];
 }
 
+const KREDITKARTENABRECHNUNG = "KREDITKARTENABRECHNUNG";
+const DKB_VISACARD = "DKB VISACARD";
+const Kreditkarte = "Kreditkarte";
+const CostsIgnoreList = [
+    KREDITKARTENABRECHNUNG,
+    DKB_VISACARD,
+    Kreditkarte
+]
+
 export const accountDataReducer = (prevState: AccountDataContext, action: DataAccountAction) => {
     switch (action.type) {
         case 'SET_DATA':
@@ -49,6 +58,9 @@ export const accountDataReducer = (prevState: AccountDataContext, action: DataAc
                 prevState = produce(prevState, draft => {
 
                     draft.accountList = payload;
+
+                    draft.accountList.forEach(item => item.data = item.data.sort(dateComparer));
+
                     draft.data = calcualateOverallAmounts(draft.accountList);
                 });
                 break;
@@ -66,20 +78,24 @@ function calcualateOverallAmounts(accountList: AccountData[]) {
         data.push(...account.data);
     });
 
-    const creaditCardBillingsToRemove: AccountDataRow[] = [];
-    data.filter(item => {
-        const amount = item.Amount;
-        const date = item.BookingDate;
-        const creditCardBillingForItem = data.filter(element => element.Amount === (-1 * amount)
-            && (element.BookingDate.getTime() - date.getTime() < (5 * 24 * 60 * 60 * 1000)));
+    // const creaditCardBillingsToRemove: AccountDataRow[] = [];
+    // data.filter(item => {
+    //     const amount = item.Amount;
+    //     const date = item.BookingDate;
+    //     const creditCardBillingForItem = data.filter(element => element.Amount === (-1 * amount)
+    //         && (element.BookingDate.getTime() - date.getTime() < (5 * 24 * 60 * 60 * 1000)));
 
-        if (creditCardBillingForItem.length === 1) {
-            creaditCardBillingsToRemove.push(item);
-            creaditCardBillingsToRemove.push(creditCardBillingForItem[0]);
-        }
+    //     if (creditCardBillingForItem.length === 1) {
+    //         creaditCardBillingsToRemove.push(item);
+    //         creaditCardBillingsToRemove.push(creditCardBillingForItem[0]);
+    //     }
+    // });
+
+    // data = data.filter(item => creaditCardBillingsToRemove.indexOf(item) < 0);
+    data = data.filter(item => {
+        const isInIgnoreList = CostsIgnoreList.filter(element => item.Client.match(element) || item.Reason.match(element)).length > 0;
+        return !isInIgnoreList;
     });
-
-    data = data.filter(item => creaditCardBillingsToRemove.indexOf(item) < 0);
     data = data.sort(dateComparer);
 
     return data;

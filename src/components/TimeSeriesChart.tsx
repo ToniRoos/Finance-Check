@@ -8,7 +8,6 @@ interface ChartState {
     min: number;
     max: number;
     range: Range;
-    chart?: c3.ChartAPI;
 }
 
 interface Range {
@@ -50,27 +49,7 @@ const TimeSeriesChart = (props: TimeSeriesChartProps) => {
 
     React.useEffect(() => {
 
-        const xValues = [props.xValues.label, ...props.xValues.data.map(item => item.toISOString().split('T')[0])];
-        const data = Array.isArray(props.yValues)
-            ? [xValues, ...props.yValues.map(element => [element.label, ...element.data])]
-            : [xValues, [props.yValues.label, ...props.yValues.data]];
-
-        const chart = createTimeSeriesChart(data, chartId);
-
-        setChartData({ min: min, max: max, range: { min: rangeMin, max: rangeMax }, chart: chart });
-
-        if (Array.isArray(props.yValues)) {
-            const linesToHide = props.yValues.filter(data => data.show !== undefined && !data.show).map(data => data.label);
-            chart.hide(linesToHide);
-        } else {
-            if (props.yValues.show !== undefined && !props.yValues.show) {
-                chart.hide(props.yValues.label);
-            }
-        }
-
-        return () => {
-            chart.destroy();
-        }
+        setChartData({ min: min, max: max, range: { min: rangeMin, max: rangeMax } });
     }, []);
 
     React.useEffect(() => {
@@ -107,11 +86,20 @@ const TimeSeriesChart = (props: TimeSeriesChartProps) => {
             ? [xValues, ...yValues] as any
             : [xValues, yValues] as any
 
-        chartData.chart?.unload();
-        chartData.chart?.load({
-            columns: (data),
-        });
+        const chart = createTimeSeriesChart(data, chartId);
 
+        // if (Array.isArray(props.yValues)) {
+        //     const linesToHide = props.yValues.filter(data => data.show !== undefined && !data.show).map(data => data.label);
+        //     chart.hide(linesToHide);
+        // } else {
+        //     if (props.yValues.show !== undefined && !props.yValues.show) {
+        //         chart.hide(props.yValues.label);
+        //     }
+        // }
+
+        return () => {
+            chart.destroy();
+        }
     }, [chartData]);
 
     return <div>

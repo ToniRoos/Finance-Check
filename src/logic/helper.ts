@@ -69,7 +69,7 @@ export function monthDiff(startDate: Date, endDate: Date) {
     months = (endDate.getFullYear() - startDate.getFullYear()) * 12;
     months -= startDate.getMonth();
     months += endDate.getMonth();
-    return months <= 0 ? 0 : months;
+    return months <= 0 ? 0 : months + 1;
 }
 
 const regexForDate = /Buchungstag|Belegdatum/;
