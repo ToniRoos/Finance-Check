@@ -34,6 +34,14 @@ export interface TimeSeriesChartProps {
 
 const TimeSeriesChart = (props: TimeSeriesChartProps) => {
 
+    if (props.xValues.data.length === 0) {
+        return <div>
+            <h1 className="text-center">{`${props.title}`}</h1>
+            <hr className="my-4"></hr>
+            <div className="text-center">No data imported yet</div>
+        </div>;
+    }
+
     var max = props.xValues.data.length === 0 ? 1 : props.xValues.data[0].getFullYear();
     var min = props.xValues.data.length === 0 ? 0 : props.xValues.data[props.xValues.data.length - 1].getFullYear();
     var rangeMin = max === min ? max : max - 1;

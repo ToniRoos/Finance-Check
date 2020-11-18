@@ -128,13 +128,16 @@ const Main = () => {
                         <a className="nav-link" href="#"
                             onClick={() => setRouter({ currentRoute: settingsRoute, routeList: router.routeList })}>
                             Settings
-                            </a>
+                        </a>
                     </li>
                 </ul>
             </div>
         </nav>
         <div className="container-fluid bg-dark">
             {route.page()}
+        </div>
+        <div className="text-secondary text-right container-fluid mb-2">
+            by Toni Roos
         </div>
     </div>
 }

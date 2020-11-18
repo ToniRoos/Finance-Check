@@ -123,6 +123,8 @@ export const AnalysisPage = () => {
                 }} />
             </div>)
         }
+    } else {
+        costChartsMapped.push(<div key={0} className="col text-center">No data imported yet</div>);
     }
 
     let costDetails = undefined;
@@ -136,7 +138,10 @@ export const AnalysisPage = () => {
     }
 
     const costsHeading = selectedSlice === undefined
-        ? <h1 className="text-center">Costs</h1>
+        ? <div>
+            <h1 className="text-center">Costs</h1>
+            <hr className="my-4" />
+        </div>
         : <div className="d-flex">
             <div>
                 <button type="button" className="btn btn-outline-secondary"
