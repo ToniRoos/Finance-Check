@@ -14,7 +14,7 @@ Please note, at the moment it's just working for DKB banking and credit card acc
 - [ ] check PSD2-API
 
 ## Overview Page
-Manage your accounts or add a new one. To add a you bank account, you have to go to your DKB Banking and export the transactions as CSV-file. After that just simply drag that file into the App.
+Manage your accounts or add a new account. To add a bank account, you need to go to your DKB Banking and export the transactions as CSV file. Then simply drag this file into the app.
 
 ![Overview empty](docu/Overview_Empty.png)
 
