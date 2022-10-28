@@ -6,9 +6,9 @@ A tool to check your finances (list costs and income, calculate remaining money,
 Please note, at the moment it's just working for DKB banking and credit card accounts.
 
 # TODO's
+- [ ] remove nodejs dependencies from UI
 - [x] add round function to overview page
 - [ ] check function to find yearly contracts
-- [ ] check usage of loading spinners
 - [x] add documentation
 - [ ] add i18n
 - [ ] check PSD2-API
