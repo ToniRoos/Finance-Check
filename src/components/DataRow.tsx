@@ -1,7 +1,7 @@
 import * as React from "react";
 import DataColumn from "./DataColumn";
-import { FilterType } from "../pages/OverviewPage";
-import { CategroyItem } from "../pages/SettingsPage";
+import { FilterType } from "../modules/OverviewPage/OverviewPage";
+import { CategroyItem } from "../modules/SettingsPage/SettingsPage";
 import { settingsStore } from "../stores/settingsStore";
 
 export interface AccountDataRow {

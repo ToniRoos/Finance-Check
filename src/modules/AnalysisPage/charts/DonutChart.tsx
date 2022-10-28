@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as c3 from "c3";
 import 'c3/c3.css';
-import { nextId, round } from "../logic/helper";
+import { nextId, round } from "../../../logic/helper";
 
 export interface DonutChartProps {
     data: any[];

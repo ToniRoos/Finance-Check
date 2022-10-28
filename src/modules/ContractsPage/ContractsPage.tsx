@@ -1,8 +1,8 @@
 import * as React from "react";
-import DataColumn from "../components/DataColumn";
-import { AccountDataRow } from "../components/DataRow";
-import { AccountData, formatNumberToEuroAmount, trim } from "../logic/helper";
-import { dataAccountStore } from "../stores/accountDataStore";
+import DataColumn from "../../components/DataColumn";
+import { AccountDataRow } from "../../components/DataRow";
+import { trim } from "../../logic/helper";
+import { dataAccountStore } from "../../stores/accountDataStore";
 
 interface ContractData {
 

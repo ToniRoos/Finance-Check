@@ -1,5 +1,5 @@
 import { createStore } from "../logic/reducerStore";
-import { settingsReducer } from "../reducer/settingsReducer";
+import { settingsReducer } from "../modules/SettingsPage/settingsReducer";
 
 const initialState = { categories: [] };
 

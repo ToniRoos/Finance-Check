@@ -1,8 +1,8 @@
 import * as React from "react";
-import { AccountDataRow } from "./DataRow";
-import { AccountData, formatNumberToEuroAmount, trim } from "../logic/helper";
+import { AccountDataRow } from "../../components/DataRow";
+import { AccountData, formatNumberToEuroAmount, trim } from "../../logic/helper";
 import logo from '../images/dkb_icon.png';
-import AmountTable from "./AmountTable";
+import AmountTable from "../AnalysisPage/AmountTable";
 
 const BankAccountItem = (props: AccountData) => {
 

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { settingsStore } from "../stores/settingsStore";
+import { settingsStore } from "../../stores/settingsStore";
 import Draggable from "react-draggable";
-import { SettingsAction } from "../reducer/settingsReducer";
+import { SettingsAction } from "./settingsReducer";
 
 export interface CategroyItem {
     title: string;

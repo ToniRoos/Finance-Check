@@ -1,9 +1,8 @@
 import { produce } from "immer";
 import { AccountDataRow } from "../components/DataRow";
-import { AccountData, AccountDataContext } from "../logic/helper";
+import { AccountData, AccountDataContext, resolveAccountListPath } from "../logic/helper";
 import { Action } from "../logic/reducerStore";
 import * as fs from "fs";
-import { resolveAccountListPath } from "../types";
 
 export interface DataAccountActionSetData extends Action {
     type: "SET_DATA";

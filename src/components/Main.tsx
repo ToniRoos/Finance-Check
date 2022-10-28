@@ -1,9 +1,8 @@
 import React from 'react';
 import * as fs from "fs";
 import { settingsStore } from '../stores/settingsStore';
-import { resolveAccountListPath, resolveSettingsPath } from '../types';
 import { dataAccountStore } from '../stores/accountDataStore';
-import { AccountData } from '../logic/helper';
+import { AccountData, resolveAccountListPath, resolveSettingsPath } from '../logic/helper';
 import { toast } from 'react-toastify';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';

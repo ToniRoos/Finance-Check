@@ -1,6 +1,6 @@
 import * as React from "react";
-import { FilterType } from "../pages/OverviewPage";
-import DataRow, { AccountDataRow } from "./DataRow";
+import { FilterType } from "../OverviewPage/OverviewPage";
+import DataRow, { AccountDataRow } from "../../components/DataRow";
 
 export interface AmountTableProps {
     data: AccountDataRow[];

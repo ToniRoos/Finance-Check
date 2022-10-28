@@ -1,7 +1,7 @@
 import * as c3 from "c3";
 import 'c3/c3.css';
 import * as React from "react";
-import { nextId } from "../logic/helper";
+import { nextId } from "../../../logic/helper";
 const InputRange = require('react-input-range');
 
 interface ChartState {

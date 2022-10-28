@@ -1,6 +1,6 @@
 import { produce } from "immer";
-import { Action } from "../logic/reducerStore";
-import { CategoryList, CategroyItem } from "../pages/SettingsPage";
+import { Action } from "../../logic/reducerStore";
+import { CategoryList, CategroyItem } from "./SettingsPage";
 
 export type SettingsAction = SetCategories
     | AddCategory

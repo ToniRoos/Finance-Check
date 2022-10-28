@@ -1,13 +1,11 @@
 import * as React from 'react';
-import * as c3 from "c3";
-import 'c3/c3.css';
-import { AccountDataContext, monthDiff, round } from '../logic/helper';
-import { dataAccountStore } from '../stores/accountDataStore';
-import TimeSeriesChart from '../components/TimeSeriesChart';
-import { settingsStore } from '../stores/settingsStore';
-import { AccountDataRow } from '../components/DataRow';
-import DonutChart from '../components/DonutChart';
-import AmountTable from '../components/AmountTable';
+import { AccountDataContext, monthDiff, round } from '../../logic/helper';
+import { dataAccountStore } from '../../stores/accountDataStore';
+import TimeSeriesChart from './charts/TimeSeriesChart';
+import { settingsStore } from '../../stores/settingsStore';
+import { AccountDataRow } from '../../components/DataRow';
+import DonutChart from './charts/DonutChart';
+import AmountTable from './AmountTable';
 
 export interface ChartProps {
     data: any[];

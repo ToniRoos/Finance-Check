@@ -13,6 +13,9 @@ export function resolveFilePath(file: string) {
     return resolvedPath;
 }
 
+export const resolveAccountListPath = () => resolveFilePath('accountList.json');
+export const resolveSettingsPath = () => resolveFilePath('settings.json');
+
 let curId = 0;
 export function nextId() {
     return curId++;

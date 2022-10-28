@@ -1,8 +1,8 @@
 import * as React from "react";
-import BankAccountItem from "../components/BankAccountItem";
-import DropZone from "../components/DropZone";
-import { formatNumberToEuroAmount } from "../logic/helper";
-import { dataAccountStore } from "../stores/accountDataStore";
+import BankAccountItem from "./BankAccountItem";
+import DropZone from "./DropZone";
+import { formatNumberToEuroAmount } from "../../logic/helper";
+import { dataAccountStore } from "../../stores/accountDataStore";
 
 export interface FilterType {
     // isChecked: boolean; 
