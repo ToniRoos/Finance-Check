@@ -1,6 +1,6 @@
 import { AccountData, isDate } from "./helper";
 import * as fs from "fs";
-import * as csv from "csv-parser";
+import csv from "csv-parser";
 
 const regexForDate = /Buchungstag|Belegdatum/;
 const regexForAmount = /Betrag \(EUR\)/;
@@ -79,7 +79,7 @@ export function loadCsv(fileURLToPath: string, setData: React.Dispatch<React.Set
             }
         }
         ))
-        .on('data', (row) => {
+        .on('data', (row: string[]) => {
 
             lineNumber++;
             if (!isDate(row[colForDate])) {

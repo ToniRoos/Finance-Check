@@ -9,7 +9,6 @@ const { Provider: DataAccountProvider, store: dataAccountStore } = createStore({
     reducer: accountDataReducer
 });
 
-
 export const useDataAccountStore = () => React.useContext(dataAccountStore);
 
 export { DataAccountProvider, dataAccountStore };

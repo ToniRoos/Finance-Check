@@ -4,27 +4,27 @@ import { AccountData, AccountDataContext } from "../logic/helper";
 import { Action } from "../logic/reducerStore";
 import * as fs from "fs";
 import { resolveAccountListPath } from "../types";
-import { CategroyItem } from "../pages/SettingsPage";
 
-export interface DataAccountAction extends Action {
-    type: "SET_DATA" | "SET_INITAL_DATA";
-    payload: AccountData | AccountData[];
+export interface DataAccountActionSetData extends Action {
+    type: "SET_DATA";
+    payload: AccountData;
+}
+export interface DataAccountActionInitial extends Action {
+    type: "SET_INITAL_DATA";
+    payload: AccountData[];
 }
 
-const KREDITKARTENABRECHNUNG = "KREDITKARTENABRECHNUNG";
-const DKB_VISACARD = "DKB VISACARD";
-const Kreditkarte = "Kreditkarte";
 const CostsIgnoreList = [
-    KREDITKARTENABRECHNUNG,
-    DKB_VISACARD,
-    Kreditkarte
+    "KREDITKARTENABRECHNUNG",
+    "DKB VISACARD",
+    "Kreditkarte"
 ]
 
-export const accountDataReducer = (prevState: AccountDataContext, action: DataAccountAction) => {
+export const accountDataReducer = (prevState: AccountDataContext, action: DataAccountActionSetData | DataAccountActionInitial) => {
     switch (action.type) {
         case 'SET_DATA':
             {
-                const payload = action.payload as AccountData;
+                const payload = action.payload;
                 prevState = produce(prevState, draft => {
 
                     const bankAccountFiltered = draft.accountList.filter(item => item.bankAccountNumber === payload.bankAccountNumber);
@@ -54,7 +54,7 @@ export const accountDataReducer = (prevState: AccountDataContext, action: DataAc
             }
         case 'SET_INITAL_DATA':
             {
-                const payload = action.payload as AccountData[];
+                const payload = action.payload;
                 prevState = produce(prevState, draft => {
 
                     draft.accountList = payload;
@@ -78,20 +78,6 @@ function calcualateOverallAmounts(accountList: AccountData[]) {
         data.push(...account.data);
     });
 
-    // const creaditCardBillingsToRemove: AccountDataRow[] = [];
-    // data.filter(item => {
-    //     const amount = item.Amount;
-    //     const date = item.BookingDate;
-    //     const creditCardBillingForItem = data.filter(element => element.Amount === (-1 * amount)
-    //         && (element.BookingDate.getTime() - date.getTime() < (5 * 24 * 60 * 60 * 1000)));
-
-    //     if (creditCardBillingForItem.length === 1) {
-    //         creaditCardBillingsToRemove.push(item);
-    //         creaditCardBillingsToRemove.push(creditCardBillingForItem[0]);
-    //     }
-    // });
-
-    // data = data.filter(item => creaditCardBillingsToRemove.indexOf(item) < 0);
     data = data.filter(item => {
         const isInIgnoreList = CostsIgnoreList.filter(element => item.Client.match(element) || item.Reason.match(element)).length > 0;
         return !isInIgnoreList;

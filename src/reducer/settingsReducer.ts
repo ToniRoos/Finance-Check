@@ -1,23 +1,71 @@
 import { produce } from "immer";
 import { Action } from "../logic/reducerStore";
-import { CategoryList } from "../pages/SettingsPage";
+import { CategoryList, CategroyItem } from "../pages/SettingsPage";
 
-export interface SettingsAction extends Action {
-    type: "SET_CATEGORIES"
-    | "ADD_EMPTY_CATEGORY_MATCH"
-    | "CHANGE_CATEGORY_TITLE"
-    | "CHANGE_CATEGORY_MATCH_TEXT"
-    | "REMOVE_CATEGORY_MATCH"
-    | "ADD_CATEGORY"
-    | "REMOVE_CATEGORY"
-    | "MOVE_CATEGORY";
-    // "TOGGLE_FILTER"
-    // | "SET_FILTERLIST"
-    // | "SET_FILTERITEM_TEXT"
-    // | "MOVE_FILTER_ITEM"
-    // | "SET_FILTERITEM_TYPE"
-    // | "ADD_FILTERITEM"
-    // | 'REMOVE_FILTERITEM';
+export type SettingsAction = SetCategories
+    | AddCategory
+    | RemoveCategory
+    | MoveCategory
+    | AddEmptyCategoryMatch
+    | RemoveCategoryMatch
+    | ChangeCategoryMatchText
+    | ChangeCategoryTitle
+
+export interface SetCategories {
+    type: "SET_CATEGORIES";
+    payload: CategroyItem[];
+}
+
+export interface AddCategory {
+    type: "ADD_CATEGORY";
+}
+
+export interface RemoveCategory extends Action {
+    type: "REMOVE_CATEGORY";
+    /** @payload string that represants the title of the category to remove */
+    payload: string;
+}
+
+export interface MoveCategory extends Action {
+    type: "MOVE_CATEGORY";
+    payload: {
+        /** @payload string that represants the title of the category to remove */
+        title: string
+        position: number
+    };
+}
+
+export interface AddEmptyCategoryMatch extends Action {
+    type: "ADD_EMPTY_CATEGORY_MATCH";
+    /** @payload string that represants the title of the category to remove */
+    payload: string;
+}
+
+export interface RemoveCategoryMatch extends Action {
+    type: "REMOVE_CATEGORY_MATCH";
+    payload: {
+        /** @payload string that represants the title of the category to remove */
+        title: string
+        matchIndex: number
+    };
+}
+
+export interface ChangeCategoryMatchText extends Action {
+    type: "CHANGE_CATEGORY_MATCH_TEXT";
+    payload: {
+        /** @payload string that represants the title of the category to remove */
+        title: string
+        matchIndex: number
+        matchText: string
+    };
+}
+
+export interface ChangeCategoryTitle extends Action {
+    type: "CHANGE_CATEGORY_TITLE";
+    payload: {
+        titlePrev: string
+        titleNext: string
+    };
 }
 
 export const settingsReducer = (prevState: CategoryList, action: SettingsAction) => {

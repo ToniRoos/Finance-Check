@@ -1,6 +1,5 @@
 import * as React from "react";
 import { settingsStore } from "../stores/settingsStore";
-import * as fs from "fs";
 import Draggable from "react-draggable";
 import { SettingsAction } from "../reducer/settingsReducer";
 
@@ -16,63 +15,6 @@ export interface CategoryList {
 const Settings = () => {
 
     const { state: settings, dispatch } = React.useContext(settingsStore);
-    // const [categoryList, setCategoryList] = React.useState<CategoryList>({
-    //     categories: [
-    //         { title: "Shopping", matches: ["rewe", "edeka", "amazon"] }
-    //     ]
-    // })
-
-    // const filterListMapped = filterList.data.map((item, i) => <Draggable key={i} axis="y" position={{ x: 0, y: 0 }} onStop={(event, data) => {
-
-    //     const height = data.node.clientHeight;
-    //     const transY = data.lastY;
-
-    //     const elementsToMove = parseInt((transY / height) + "");
-    //     const diff = i + elementsToMove;
-
-    //     dispatch({ type: "MOVE_FILTER_ITEM", payload: { filterKey: item.key, position: diff } });
-
-    // }}>
-    //     <tr>
-    //         <td className="col">
-    //             <input type="text"
-    //                 aria-label="Last name"
-    //                 className="form-control"
-    //                 value={item.value}
-    //                 onChange={(event) => {
-    //                     dispatch({
-    //                         type: 'SET_FILTERITEM_TEXT', payload: {
-    //                             filterKey: item.key,
-    //                             filterName: event.target.value
-    //                         }
-    //                     })
-    //                 }} />
-    //         </td>
-    //         <td className="col">
-    //             <select className="form-control" style={{ width: "120px" }}
-    //                 //  value={item.type}
-    //                 onChange={(event) => {
-    //                     dispatch({
-    //                         type: 'SET_FILTERITEM_TYPE', payload: {
-    //                             filterKey: item.key,
-    //                             filtertype: event.target.value
-    //                         }
-    //                     })
-    //                 }}>
-    //                 <option value="text">text</option>
-    //                 <option value="date">date</option>
-    //                 <option value="number">number</option>
-    //             </select>
-    //         </td>
-    //         <td>
-    //             <button type="button" className="btn btn-danger"
-    //                 onClick={() => {
-    //                     dispatch({ type: 'REMOVE_FILTERITEM', payload: item.key });
-    //                 }}>X</button>
-    //         </td>
-
-    //     </tr>
-    // </Draggable>);
 
     const mappedCategories = settings.categories.map((categoryItem, i) => <Draggable key={i} axis="y" position={{ x: 0, y: 0 }} onStop={(event, data) => {
 
@@ -117,7 +59,7 @@ const Settings = () => {
                         style={{ fontSize: "10px" }}
                         onClick={removeItem(categoryItem, j, dispatch, settings)}>
                         X
-                </button>
+                    </button>
                 </span>
             })}
             </td>
@@ -153,16 +95,6 @@ const Settings = () => {
                 </tbody>
             </table>
         </div>
-
-        {/* <div className="row mt-2 border-top pt-2 mb-2">
-            <div className="col">
-                <button type="button" className="btn btn-info w-100"
-                    onClick={() => {
-                        let data = JSON.stringify({ categories: settings.categories }, null, 4);
-                        fs.writeFileSync('settings.json', data);
-                    }}>Save</button>
-            </div>
-        </div> */}
     </div>;
 }
 

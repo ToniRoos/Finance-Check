@@ -1,50 +1,25 @@
-import * as React from 'react';
-import { AnalysisPage } from '../pages/AnalysisPage';
-import Settings from '../pages/SettingsPage';
-import OverviewPage from '../pages/OverviewPage';
+import React from 'react';
 import * as fs from "fs";
 import { settingsStore } from '../stores/settingsStore';
-import ContractsPage from '../pages/ContractsPage';
 import { resolveAccountListPath, resolveSettingsPath } from '../types';
 import { dataAccountStore } from '../stores/accountDataStore';
 import { AccountData } from '../logic/helper';
 import { toast } from 'react-toastify';
-
-export interface RouteItem { page: () => JSX.Element, routeName: string }
-
-export interface RoutesData {
-    routeList: RouteItem[];
-    currentRoute: string;
-}
-
-const tableRoute = "tableRoute";
-const analysisRoute = "analysisRoute";
-const contractsRoute = "contractsRoute";
-const settingsRoute = "settingsRoute";
-
-const routes: RouteItem[] = [
-    {
-        routeName: tableRoute,
-        page: () => <OverviewPage />
-    },
-    {
-        routeName: analysisRoute,
-        page: () => <AnalysisPage />
-    },
-    {
-        routeName: contractsRoute,
-        page: () => <ContractsPage />
-    },
-    {
-        routeName: settingsRoute,
-        page: () => <Settings />
-    }
-]
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Payment from '@mui/icons-material/Payment';
+import { MenuButton } from './MenuButton'
+import { useRoutes } from '../router/useRoutes';
+import { routeNames } from '../router/routes'
 
 const Main = () => {
 
     const { dispatch } = React.useContext(dataAccountStore);
-    const [router, setRouter] = React.useState<RoutesData>({ currentRoute: tableRoute, routeList: routes });
+    const { route, to } = useRoutes()
+    const { analysisRoute, contractsRoute, settingsRoute, tableRoute } = routeNames
+
     const { state: settings, dispatch: settingsDispatcher } = React.useContext(settingsStore);
     const settingsPath = resolveSettingsPath();
     const accountListPath = resolveAccountListPath();
@@ -62,7 +37,7 @@ const Main = () => {
             toast.error('Failed to write settings.json');
         }
 
-    }, [router]);
+    }, [route]);
 
     React.useEffect(() => {
 
@@ -95,44 +70,27 @@ const Main = () => {
         }
     }, []);
 
-    const route = router.routeList.filter(route => route.routeName === router.currentRoute)[0];
-
     return <div>
-        <nav className="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
-            <a className="navbar-brand text-info" href="#">Finance Check</a>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
-
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav mr-auto">
-                    <li className={`nav-item${isActive(route, tableRoute)}`}>
-                        <a className="nav-link" href="#"
-                            onClick={() => setRouter({ currentRoute: tableRoute, routeList: router.routeList })}>
-                            Overview
-                        </a>
-                    </li>
-                    <li className={`nav-item${isActive(route, analysisRoute)}`}>
-                        <a className="nav-link" href="#"
-                            onClick={() => setRouter({ currentRoute: analysisRoute, routeList: router.routeList })}>
-                            Analysis
-                        </a>
-                    </li>
-                    <li className={`nav-item${isActive(route, contractsRoute)}`}>
-                        <a className="nav-link" href="#"
-                            onClick={() => setRouter({ currentRoute: contractsRoute, routeList: router.routeList })}>
-                            Contracts
-                        </a>
-                    </li>
-                    <li className={`nav-item${isActive(route, settingsRoute)}`}>
-                        <a className="nav-link" href="#"
-                            onClick={() => setRouter({ currentRoute: settingsRoute, routeList: router.routeList })}>
-                            Settings
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <AppBar position='sticky'>
+            <Toolbar>
+                <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{ mr: 2 }}
+                >
+                    <Payment fontSize='large' />
+                </IconButton>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    Finance Check
+                </Typography>
+                <MenuButton isActive={route.routeName === tableRoute} routeName={tableRoute} to={to}>Overview</MenuButton>
+                <MenuButton isActive={route.routeName === analysisRoute} routeName={analysisRoute} to={to}>Analysis</MenuButton>
+                <MenuButton isActive={route.routeName === contractsRoute} routeName={contractsRoute} to={to}>Contracts</MenuButton>
+                <MenuButton isActive={route.routeName === settingsRoute} routeName={settingsRoute} to={to}>Settings</MenuButton>
+            </Toolbar>
+        </AppBar>
         <div className="container-fluid bg-dark">
             {route.page()}
         </div>
@@ -144,6 +102,3 @@ const Main = () => {
 
 export default Main;
 
-function isActive(route: RouteItem, routeShouldMatch: string) {
-    return route.routeName === routeShouldMatch ? ' active' : '';
-}
