@@ -7,15 +7,16 @@ interface DataColumnProps {
 
 const DataColumn = (props: DataColumnProps) => {
 
+    const { value } = props
     let style = "";
-    let valueParsed = parseType(props.value);
-    if (isFloat(props.value) || isInt(props.value)) {
-        style = (props.value as number) < 0 ? "text-right bg-danger" : "text-right bg-success";
-        valueParsed = formatNumberToEuroAmount(props.value as number);
+    let valueParsed = parseType(value);
+    if (isFloat(value) || isInt(value)) {
+        style = (value as number) < 0 ? "text-right bg-danger" : "text-right bg-success";
+        valueParsed = formatNumberToEuroAmount(value as number);
     }
 
     return <td className={style}>
-        <div className="text-truncate" style={{ maxWidth: "600px" }}>
+        <div title={value.toString()} className="text-truncate" style={{ maxWidth: "600px" }}>
             {valueParsed}
         </div>
     </td>;

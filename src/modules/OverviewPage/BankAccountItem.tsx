@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AccountDataRow } from "../../components/DataRow";
 import { AccountData, formatNumberToEuroAmount, trim } from "../../logic/helper";
-import logo from '../images/dkb_icon.png';
+import logo from '../../images/dkb_icon.png';
 import AmountTable from "../AnalysisPage/AmountTable";
 
 const BankAccountItem = (props: AccountData) => {
@@ -10,12 +10,15 @@ const BankAccountItem = (props: AccountData) => {
     const [accountData, setData] = React.useState<AccountDataRow[]>(props.data);
 
     React.useEffect(() => {
-
         const listToShow = searchText === "" ? props.data : props.data.filter(row => row.Client.toLocaleLowerCase().match(searchText.toLocaleLowerCase())
             || row.Reason.toLocaleLowerCase().match(searchText.toLocaleLowerCase())
             || row.Creditor.toLocaleLowerCase().match(searchText.toLocaleLowerCase())
-            || row.Amount.toString().match(searchText.toLocaleLowerCase()));
+            || matchesAmount(row));
         setData(listToShow);
+
+        function matchesAmount(row: AccountDataRow): unknown {
+            return row.Amount.toFixed(2).match(searchText.toLocaleLowerCase());
+        }
     }, [searchText]);
 
     const id = `collapseItem${trim(props.bankAccountNumber.replace(/\/|\*/g, ''))}`;
