@@ -1,0 +1,11 @@
+"Kontonummer:";"DE1234567889 / Girokonto";
+
+"Von:";"05.10.2018";
+"Bis:";"04.11.2020";
+"Kontostand vom 04.11.2020:";"2.958,32 EUR";
+"Freitextsuche (im Verwendungszweck und Empfängerdaten):";"";"im Verwendungszweck und Empf‰ngerdaten";
+"Betrag von:";"";"bis:";"";
+
+"Buchungstag";"Wertstellung";"Buchungstext";"Auftraggeber / Begünstigter";"Verwendungszweck";"Kontonummer";"BLZ";"Betrag (EUR)";"Gl‰ubiger-ID";"Mandatsreferenz";"Kundenreferenz";
+"04.11.2020";"04.11.2020";"FOLGELASTSCHRIFT";"Foo GmbH + Co. OHG";"Kd-Nr.: 31111111, Rg-Nr.: 123456/6, Ihre Tarifrechnung";"DE112233445566";"HYVEDEMMXXX";"-22,22";"DE9342347962";"";"3203423742749237498812006RCUR";
+"04.11.2020";"04.11.2020";"FOLGELASTSCHRIFT";"Bar GMBH / Bar GMBH";"u7d67z7d3 11/2020, Max Musterman, 67633762736-001 NR 1016556";"DE7460023423434231234";"12321";"-36,58";"DE39DB2312300002177";"";"Bar GMBH";

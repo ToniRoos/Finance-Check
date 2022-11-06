@@ -1,0 +1,9 @@
+"Kontonummer:";"DE734234324131 / Girokonto";
+
+"Von:";"27.10.2020";
+"Bis:";"27.10.2022";
+"Kontostand vom 27.10.2022:";"3.444,08 EUR";
+
+"Buchungstag";"Wertstellung";"Buchungstext";"Auftraggeber / Begünstigter";"Verwendungszweck";"Kontonummer";"BLZ";"Betrag (EUR)";"Gl�ubiger-ID";"Mandatsreferenz";"Kundenreferenz";
+"27.10.2022";"27.10.2022";"LOHN ";"Foo GmbH DE";"Lohn adsad939d/372837";"DE3423478923748924";"CKNSDNCKS";"9.999,99";"";"";"";
+"24.10.2022";"24.10.2022";"Kartenzahlung";"SHELL 32432432423";"2022-10-23 Debit";"DE982034923840234";"NKASDAS123213";"-55,55";"";"";"234234";

@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dkb csv parser should parse csv correctly [ csv1 ] 1`] = `
+{
+  "bankAccountNumber": "DE1234567889 / Girokonto",
+  "data": [
+    {
+      "amount": -22.22,
+      "bankAccountNumber": "DE112233445566",
+      "bookingDate": 2020-11-04T00:00:00.000Z,
+      "client": "Foo GmbH + Co. OHG",
+      "creditor": "DE9342347962",
+      "reason": "Kd-Nr.: 31111111, Rg-Nr.: 123456/6, Ihre Tarifrechnung",
+    },
+    {
+      "amount": -36.58,
+      "bankAccountNumber": "DE7460023423434231234",
+      "bookingDate": 2020-11-04T00:00:00.000Z,
+      "client": "Bar GMBH / Bar GMBH",
+      "creditor": "DE39DB2312300002177",
+      "reason": "u7d67z7d3 11/2020, Max Musterman, 67633762736-001 NR 1016556",
+    },
+  ],
+  "saldo": 2958.32,
+}
+`;
+
+exports[`dkb csv parser should parse csv correctly [ csv2 ] 1`] = `
+{
+  "bankAccountNumber": "DE734234324131 / Girokonto",
+  "data": [
+    {
+      "amount": 9999.99,
+      "bankAccountNumber": "DE3423478923748924",
+      "bookingDate": 2022-10-27T00:00:00.000Z,
+      "client": "Foo GmbH DE",
+      "creditor": "",
+      "reason": "Lohn adsad939d/372837",
+    },
+    {
+      "amount": -55.55,
+      "bankAccountNumber": "DE982034923840234",
+      "bookingDate": 2022-10-24T00:00:00.000Z,
+      "client": "SHELL 32432432423",
+      "creditor": "",
+      "reason": "2022-10-23 Debit",
+    },
+  ],
+  "saldo": 3444.08,
+}
+`;
