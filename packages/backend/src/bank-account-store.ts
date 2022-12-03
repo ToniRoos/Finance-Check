@@ -1,6 +1,6 @@
-import { raw } from "body-parser"
-import { AccountData, AccountDataRow } from "common"
+import { AccountData } from "common"
 import { readJSON, writeJson, existsSync } from "fs-extra"
+import _ from "lodash"
 import path from 'path'
 
 function bankAccountStore() {
@@ -23,6 +23,9 @@ function bankAccountStore() {
         }
 
         for (const accountData of rawData) {
+
+            accountData.data = _.sortBy(accountData.data, item => item.bookingDate).reverse()
+
             for (const item of accountData.data) {
                 item.bookingDate = new Date(item.bookingDate);
             }
@@ -42,11 +45,11 @@ function bankAccountStore() {
 
             const containedBankAccountData = bankAccountFiltered[0].data;
             payload.data.forEach(element => {
-                const notContained = containedBankAccountData.filter(item => item.amount === element.amount
+                const contained = _.some(containedBankAccountData, item => item.amount === element.amount
                     && item.bookingDate.getTime() === element.bookingDate.getTime()
-                    && item.bankAccountNumber === element.bankAccountNumber).length === 0;
+                    && item.bankAccountNumber === element.bankAccountNumber);
 
-                if (notContained) {
+                if (!contained) {
                     containedBankAccountData.push(element);
                 }
             });
@@ -62,41 +65,5 @@ function bankAccountStore() {
         readAccountDataList
     }
 }
-
-const CostsIgnoreList = [
-    "KREDITKARTENABRECHNUNG",
-    "DKB VISACARD",
-    "Kreditkarte"
-]
-
-// function calcualateOverallAmounts(accountList: AccountData[]) {
-
-//     let data: AccountDataRow[] = [];
-//     accountList.forEach(account => {
-//         data.push(...account.data);
-//     });
-
-//     data = data.filter(item => {
-//         const isInIgnoreList = CostsIgnoreList.filter(element => item.client.match(element) || item.reason.match(element)).length > 0;
-//         return !isInIgnoreList;
-//     });
-//     data = data.sort(dateComparer);
-
-//     return data;
-// }
-
-// function dateComparer(a: AccountDataRow, b: AccountDataRow) {
-
-//     const numA = a.bookingDate.getTime();
-//     const numB = b.bookingDate.getTime();
-
-//     if (numA < numB) {
-//         return 1;
-//     }
-//     if (numA > numB) {
-//         return -1;
-//     }
-//     return 0;
-// }
 
 export default bankAccountStore()

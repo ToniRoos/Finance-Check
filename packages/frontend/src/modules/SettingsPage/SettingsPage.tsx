@@ -12,7 +12,7 @@ export interface CategoryList {
     categories: CategroyItem[];
 }
 
-const Settings = () => {
+export const Settings = () => {
 
     const { state: settings, dispatch } = React.useContext(settingsStore);
 

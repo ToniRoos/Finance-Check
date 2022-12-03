@@ -25,7 +25,6 @@ app.get('/api/bank-account-data', async (req, res) => {
 
     try {
         const data = await bankAccountStore.readAccountDataList()
-        console.log('/api/bank-account-data', data)
         res.json(data)
 
     } catch (err) {

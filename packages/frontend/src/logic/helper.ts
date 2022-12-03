@@ -23,6 +23,10 @@ export function nextId() {
 
 export function parseDate(date: Date) {
 
+    if (!(date instanceof Date)) {
+        return ''
+    }
+
     let day: number = date.getDate();
     let month: number = date.getMonth();
     month = month + 1;

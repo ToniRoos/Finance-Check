@@ -6,7 +6,7 @@ interface BankAccountApiOptions {
     immediate?: boolean
 }
 
-enum FetchState {
+export enum FetchState {
     loading,
     initial,
     success,

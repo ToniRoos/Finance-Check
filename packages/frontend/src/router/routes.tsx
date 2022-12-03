@@ -1,5 +1,5 @@
 import React from "react";
-import { Settings } from "@mui/icons-material";
+import { Settings } from "../modules/SettingsPage/SettingsPage";
 import { AnalysisPage } from "../modules/AnalysisPage/AnalysisPage";
 import ContractsPage from "../modules/ContractsPage/ContractsPage";
 import OverviewPage from "../modules/OverviewPage/OverviewPage";

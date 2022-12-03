@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { AccountDataContext, monthDiff, round } from '../../logic/helper';
-import { dataAccountStore } from '../../stores/accountDataStore';
+import { monthDiff, round } from '../../logic/helper';
 import TimeSeriesChart from './charts/TimeSeriesChart';
 import { settingsStore } from '../../stores/settingsStore';
 import { AccountDataRow } from 'common';
 import DonutChart from './charts/DonutChart';
 import AmountTable from './AmountTable';
+import { useBankAccountStore } from '../../stores/accountDataStore2';
+import _ from 'lodash';
 
 export interface ChartProps {
     data: any[];
@@ -23,12 +24,13 @@ interface SelectedSliceState {
 
 export const AnalysisPage = () => {
 
-    const { state: dataContext } = React.useContext(dataAccountStore);
     const { state: settings } = React.useContext(settingsStore);
+    console.log('AnalysisPage')
+    const { bankAccounts: accountList, overallData: data } = useBankAccountStore()
     const [selectedSlice, setSelectedSclice] = React.useState<SelectedSliceState>()
 
     let saldo = 0;
-    dataContext.accountList.forEach(element => {
+    accountList.forEach(element => {
 
         if (element.saldo) {
             saldo += element.saldo;
@@ -37,7 +39,8 @@ export const AnalysisPage = () => {
     const incomeData2: { x: Date, y: number | string }[] = [];
     const miscellaneous = "miscellaneous";
     const costsMapped: CostsCategory[] = [{ category: miscellaneous, data: [] }];
-    dataContext.data.forEach(element => {
+
+    _.forEach(data, element => {
 
         if (incomeData2.length > 0 && incomeData2[incomeData2.length - 1].x.getTime() === element.bookingDate.getTime()) {
 
@@ -90,7 +93,7 @@ export const AnalysisPage = () => {
             data: incomeData2.map(item => item.y as number)
         }} />;
 
-    const { xx, yy, yy2, yy3 } = calculateRemainingMoney(dataContext);
+    const { xx, yy, yy2, yy3 } = calculateRemainingMoney(data);
 
     const remainingMoneyChart = <TimeSeriesChart title="Remaining Money"
         xValues={{
@@ -103,9 +106,9 @@ export const AnalysisPage = () => {
         yValues={[{ label: "Remaining", data: yy }, { label: "Income", data: yy2, show: false }, { label: "Costs", data: yy3, show: false }]} />;
 
     const costChartsMapped: JSX.Element[] = [];
-    if (dataContext.data.length > 0) {
-        var max = dataContext.data[0].bookingDate.getFullYear();
-        var min = dataContext.data[dataContext.data.length - 1].bookingDate.getFullYear();
+    if (data.length > 0) {
+        var max = data[0].bookingDate.getFullYear();
+        var min = data[data.length - 1].bookingDate.getFullYear();
         var rangeMin = max - min > 2 ? max - 2 : min;
         var rangeMax = max;
 
@@ -127,7 +130,7 @@ export const AnalysisPage = () => {
 
     let costDetails = undefined;
     if (selectedSlice) {
-        dataContext.data.filter(item => item.bookingDate.getFullYear() === selectedSlice.year)
+        data.filter(item => item.bookingDate.getFullYear() === selectedSlice.year)
         const costsFiltered: AccountDataRow[] = [];
         costsMapped.filter(item => item.category === selectedSlice.category).forEach(item => {
             costsFiltered.push(...item.data.filter(data => data.bookingDate.getFullYear() === selectedSlice.year))
@@ -154,22 +157,23 @@ export const AnalysisPage = () => {
             </div>
         </div>;
 
-    return <div>
+    return (
+        <div>
+            <div className="jumbotron">
+                {assetsDevelopChart}
+            </div>
+            <div className="jumbotron">
+                {remainingMoneyChart}
+            </div>
+            <div className="jumbotron">
+                {costsHeading}
+                {costDetails === undefined
+                    ? <div className="row">{costChartsMapped}</div>
+                    : costDetails}
 
-        <div className="jumbotron">
-            {assetsDevelopChart}
+            </div>
         </div>
-        <div className="jumbotron">
-            {remainingMoneyChart}
-        </div>
-        <div className="jumbotron">
-            {costsHeading}
-            {costDetails === undefined
-                ? <div className="row">{costChartsMapped}</div>
-                : costDetails}
-
-        </div>
-    </div>;
+    )
 };
 
 function calculateSum(accountRows: AccountDataRow[]) {
@@ -182,20 +186,20 @@ function calculateSum(accountRows: AccountDataRow[]) {
     return round(Math.abs(sum));
 }
 
-function calculateRemainingMoney(dataContext: AccountDataContext) {
+function calculateRemainingMoney(data: AccountDataRow[]) {
 
     let xx: string[] = [];
     let yy: number[] = [];
     let yy2: number[] = [];
     let yy3: number[] = [];
 
-    if (dataContext.data.length === 0) {
+    if (data.length === 0) {
         return { xx, yy, yy2, yy3 };
     }
 
-    const countMonths = monthDiff(dataContext.data[dataContext.data.length - 1].bookingDate, dataContext.data[0].bookingDate);
-    let startMonth = dataContext.data[dataContext.data.length - 1].bookingDate.getMonth();
-    let startYear = dataContext.data[dataContext.data.length - 1].bookingDate.getFullYear();
+    const countMonths = monthDiff(data[data.length - 1].bookingDate, data[0].bookingDate);
+    let startMonth = data[data.length - 1].bookingDate.getMonth();
+    let startYear = data[data.length - 1].bookingDate.getFullYear();
 
     for (let index = 0; index < countMonths; index++) {
 
@@ -206,7 +210,7 @@ function calculateRemainingMoney(dataContext: AccountDataContext) {
 
         let costs1 = 0;
         let income1 = 0;
-        dataContext.data.filter(elemet => elemet.bookingDate.getFullYear() === startYear && elemet.bookingDate.getMonth() === startMonth).forEach(element => {
+        data.filter(elemet => elemet.bookingDate.getFullYear() === startYear && elemet.bookingDate.getMonth() === startMonth).forEach(element => {
             if (element.amount < 0) {
                 costs1 += Math.abs(element.amount);
             } else {

@@ -1,22 +1,20 @@
-import React from 'react';
+import React from 'react'
 // import * as fs from "fs";
-import { settingsStore } from '../stores/settingsStore';
-import { dataAccountStore } from '../stores/accountDataStore';
-import { AccountData, resolveAccountListPath, resolveSettingsPath } from '../logic/helper';
-import { toast } from 'react-toastify';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Payment from '@mui/icons-material/Payment';
+import { settingsStore } from '../stores/settingsStore'
+import { resolveAccountListPath, resolveSettingsPath } from '../logic/helper'
+import { toast } from 'react-toastify'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Payment from '@mui/icons-material/Payment'
 import { MenuButton } from './MenuButton'
-import { useRoutes } from '../router/useRoutes';
+import { useRoutes } from '../router/useRoutes'
 import { routeNames } from '../router/routes'
-import { useBankAccounts } from '../api/useBankAccounts';
+import { useScrollBottom } from '../hooks/useScrollBottom'
 
 const Main = () => {
 
-    const { dispatch } = React.useContext(dataAccountStore);
     const { route, to } = useRoutes()
     const { analysisRoute, contractsRoute, settingsRoute, tableRoute } = routeNames
 
@@ -38,37 +36,6 @@ const Main = () => {
         }
 
     }, [route]);
-
-    React.useEffect(() => {
-
-        try {
-            // if (fs.existsSync(settingsPath)) {
-            //     fs.readFile(settingsPath, (err, data: any) => {
-            //         if (err) throw err;
-
-            //         let settings = JSON.parse(data);
-            //         settingsDispatcher({ type: "SET_CATEGORIES", payload: settings.categories });
-            //     })
-            // }
-
-            // if (fs.existsSync(accountListPath)) {
-            //     fs.readFile(accountListPath, (err, data: any) => {
-            //         if (err) throw err;
-
-            //         let dataParsed = JSON.parse(data).accountList as AccountData[];
-            //         dataParsed.forEach(element => {
-
-            //             element.data.forEach(item => {
-            //                 item.BookingDate = new Date(item.BookingDate);
-            //             });
-            //         });
-            //         dispatch({ type: "SET_INITAL_DATA", payload: dataParsed });
-            //     })
-            // }
-        } catch (err) {
-            console.error(err)
-        }
-    }, []);
 
     return <div>
         <AppBar position='sticky'>

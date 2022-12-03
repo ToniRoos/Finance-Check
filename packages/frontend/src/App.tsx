@@ -2,9 +2,9 @@ import * as React from 'react';
 import Main from './components/Main';
 import ReactDOM from "react-dom/client";
 import 'bootstrap';
-import { DataAccountProvider } from './stores/accountDataStore';
 import { SettingsProvider } from './stores/settingsStore';
 import { ToastContainer } from 'react-toastify';
+import { BankAccountStoreProvider } from "./stores/accountDataStore2";
 // import { setGlobalUserDataPath } from './logic/helper';
 import './styles/_custom.scss';
 
@@ -18,10 +18,10 @@ import './styles/_custom.scss';
 // console.log('helloWorld', helloWorld)
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
-root.render(<DataAccountProvider>
+root.render(<BankAccountStoreProvider>
     <SettingsProvider>
         <ToastContainer />
         <Main />
     </SettingsProvider>
-</DataAccountProvider>);
+</BankAccountStoreProvider>);
 // });
